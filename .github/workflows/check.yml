@@ -18,27 +18,22 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.11"
 
       - name: Install cookiecutter
         run: pip install cookiecutter
-
-      - name: Run image
-        uses: abatilo/actions-poetry@v2
-
-      - name: Configure Poetry to install dependencies in virtualenv
-        run: |
-          poetry config virtualenvs.create true
-          poetry config virtualenvs.in-project true
 
       - name: Generate cookiecutter project
         run: cookiecutter flask-boilerplate --no-input
         working-directory: ../
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
       - name: Install dependencies
         working-directory: ../my-cool-app
-        run: poetry install --without dev
+        run: uv sync --no-group test --no-group type --no-group dev
 
       - name: Lint with ruff
         working-directory: ../my-cool-app
-        run: poetry run ruff check .
+        run: uv run ruff check .
