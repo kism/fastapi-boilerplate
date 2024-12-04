@@ -60,5 +60,6 @@ def create_app(test_config: dict | None = None, instance_path: str | None = None
         return render_template("home.html.j2", __app_nice_name=__name__)  # Return a webpage
 
     app.logger.info("Starting Web Server")
+    app.logger.info("{{cookiecutter.__app_nice_name}} version: %s", __version__)
 
     return app

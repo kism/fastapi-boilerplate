@@ -135,7 +135,7 @@ class {{cookiecutter.__app_camel_case}}Config:
                     if parent_key != "<root>":
                         parent_key = f"[{parent_key}]"
 
-                    msg = f"Config entry key {parent_key}[{key}] not in schema"
+                    msg = f"Found config entry key {parent_key}[{key}] that is not in schema"
                     logger.warning(msg)
 
         return target_dict
