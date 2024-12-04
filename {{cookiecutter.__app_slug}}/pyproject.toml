@@ -1,31 +1,31 @@
-[tool.poetry]
+[project]
 name = "{{cookiecutter.__app_package}}"
 version = "0.0.1"
 description = ""
-authors = ["{{cookiecutter.your_name}} <{{cookiecutter.your_email}}>"]
+authors = [{ name = "{{cookiecutter.your_name}}", email = "{{cookiecutter.your_email}}" }]
 readme = "README.md"
+requires-python = "~=3.11"
+dependencies = ["flask>=3.0.3", "tomlkit>=0.13.2", "waitress>=3.0.1"]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-flask = "^3.0"
-waitress = "^3.0"
-tomlkit = "^0.12"
+[dependency-groups]
+dev = ["pylance"]
 
-[tool.poetry.group.test.dependencies]
-pytest = "*"
-pytest-cov = "*"
-pytest-mock = "*"
-detect-test-pollution = "*"
-pytest-random-order = "*"
-mypy = "*"
-ruff = "*"
+type = [
+    "mypy",
+]
 
-[tool.poetry.group.dev.dependencies]
-pylance = "*"
+lint = ["ruff"]
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "pytest-random-order",
+    "detect-test-pollution",
+]
+
+[tool.uv]
+default-groups = ["dev", "test", "type", "lint"]
 
 [tool.ruff]
 cache-dir = "~/.cache/ruff"
@@ -45,7 +45,7 @@ ignore = [
     "DTZ", # KG no need to specify timezone for time objects
 
     # Specific rules
-    "ANN101", # KG Why define self type for object functions...
+    # "ANN101", # KG Why define self type for object functions...
     "TD002",  # KG Verbose TODO, only I work on this project
     "TD003",  # KG Verbose TODO, only I work on this project
     "ISC001", # KG conflict in the formatter
@@ -83,7 +83,6 @@ docstring-code-line-length = 40
 
 [tool.pytest.ini_options]
 addopts = [
-    "--import-mode=importlib",
     "--cov-context=test",
     "--cov={{cookiecutter.__app_package}}",
     "--cov-report=term",

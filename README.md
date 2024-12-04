@@ -24,7 +24,7 @@ Project features:
 
 - Only Three PyPi packages (and their dependencies) for prod
 - Close to all project/tool configs in pyproject.toml
-- Virtual environment and dependencies managed by Poetry
+- Virtual environment and dependencies managed by uv
 
 Boilerplate features:
 

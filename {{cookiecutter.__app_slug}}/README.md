@@ -11,15 +11,17 @@ Install poetry with pipx `pipx install poetry`
 ### Run Dev
 
 ```bash
-poetry install
-poetry shell
+uv venv
+uv sync
 flask --app {{cookiecutter.__app_package}} run --port 5000
 ```
 
 ### Run Prod
 
 ```bash
-poetry install --only main
+uv venv
+uv sync --no-group dev --no-group test --no-group type --no-group lint
+
 .venv/bin/waitress-serve \
     --listen "127.0.0.1:5000" \
     --trusted-proxy '*' \

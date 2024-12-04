@@ -6,10 +6,12 @@ on:
     branches:
       - main
       - test
+    paths-ignore:
+      - "**/README.md"
 
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: chartboost/ruff-action@v1
+      - uses: astral-sh/ruff-action@v2
