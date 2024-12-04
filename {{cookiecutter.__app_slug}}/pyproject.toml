@@ -83,7 +83,6 @@ docstring-code-line-length = 40
 
 [tool.pytest.ini_options]
 addopts = [
-    "--import-mode=importlib",
     "--cov-context=test",
     "--cov={{cookiecutter.__app_package}}",
     "--cov-report=term",
