@@ -27,10 +27,6 @@ test = [
 [tool.uv]
 default-groups = ["dev", "test", "type", "lint"]
 
-[build-system]
-requires = ["maturin>=1.0,<2.0"]
-build-backend = "maturin"
-
 [tool.ruff]
 cache-dir = "~/.cache/ruff"
 target-version = "py311"
