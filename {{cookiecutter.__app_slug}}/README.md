@@ -4,7 +4,9 @@
 
 Install pipx <https://pipx.pypa.io/stable/>
 
-Install poetry with pipx `pipx install poetry`
+Install uv with pipx `pipx install uv`
+
+Or install uv and uvx with the installer script <https://docs.astral.sh/uv/getting-started/installation/>
 
 ## Run
 
