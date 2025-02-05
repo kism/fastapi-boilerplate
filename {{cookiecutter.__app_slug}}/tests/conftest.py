@@ -29,13 +29,13 @@ def app(tmp_path, get_test_config) -> Flask:
 
 
 @pytest.fixture
-def client(app: Flask) -> FlaskClient:
+def client(app) -> FlaskClient:
     """This returns a test client for the default app()."""
     return app.test_client()
 
 
 @pytest.fixture
-def runner(app: Flask) -> FlaskCliRunner:
+def runner(app) -> FlaskCliRunner:
     """TODO?????"""
     return app.test_cli_runner()
 

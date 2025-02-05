@@ -2,10 +2,8 @@
 
 from http import HTTPStatus
 
-from flask.testing import FlaskClient
 
-
-def test_home(client: FlaskClient):
+def test_home(client):
     """Test the hello API endpoint. This one uses the fixture in conftest.py."""
     response = client.get("/")
     # TEST: HTTP OK
@@ -16,7 +14,7 @@ def test_home(client: FlaskClient):
     assert b"<!doctype html>" in response.data
 
 
-def test_static_js_exists(client: FlaskClient):
+def test_static_js_exists(client):
     """TEST: /static/{{cookiecutter.__app_package}}.js loads."""
     response = client.get("/static/{{cookiecutter.__app_package}}.js")
     assert response.status_code == HTTPStatus.OK

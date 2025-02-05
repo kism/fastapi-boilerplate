@@ -3,12 +3,10 @@
 import logging
 from http import HTTPStatus
 
-from flask.testing import FlaskClient
-
 from {{cookiecutter.__app_package}} import create_app
 
 
-def test_hello(client: FlaskClient):
+def test_hello(client):
     """TEST: The default /hello/ response, This one uses the fixture in conftest.py."""
     response = client.get("/hello/")
     assert response.status_code == HTTPStatus.OK
@@ -33,7 +31,7 @@ def test_hello_with_config(tmp_path, get_test_config, caplog):
         assert expected_log in caplog.text
 
 
-def test_hello_backwards(client: FlaskClient):
+def test_hello_backwards(client):
     """TEST: The default /hello/ response, This one uses the fixture in conftest.py."""
     response = client.get("/hello_backwards/")
     assert response.status_code == HTTPStatus.OK

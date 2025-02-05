@@ -5,8 +5,6 @@ import os
 from collections.abc import Generator
 
 import pytest
-import pytest_mock
-from flask import Flask
 
 import {{cookiecutter.__app_package}}.logger
 
@@ -26,7 +24,7 @@ def logger() -> Generator:
         handler.close()
 
 
-def test_logging_permissions_error(logger, tmp_path, mocker: pytest_mock.plugin.MockerFixture):
+def test_logging_permissions_error(logger, tmp_path, mocker):
     """Test logging, mock a permission error."""
     from {{cookiecutter.__app_package}}.logger import _add_file_handler
 
@@ -48,7 +46,7 @@ def test_config_logging_to_dir(logger, tmp_path):
         _add_file_handler(logger, tmp_path)
 
 
-def test_handler_console_added(logger, app: Flask):
+def test_handler_console_added(logger, app):
     """Test logging console handler."""
     logging_conf = {"path": "", "level": "INFO"}  # Test only console handler
 
@@ -61,7 +59,7 @@ def test_handler_console_added(logger, app: Flask):
     assert len(logger.handlers) == 1
 
 
-def test_handler_file_added(logger, tmp_path, app: Flask):
+def test_handler_file_added(logger, tmp_path, app):
     """Test logging file handler."""
     logging_conf = {"path": os.path.join(tmp_path, "test.log"), "level": "INFO"}  # Test file handler
 
