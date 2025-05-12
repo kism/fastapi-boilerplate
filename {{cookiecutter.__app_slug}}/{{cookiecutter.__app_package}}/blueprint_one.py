@@ -2,11 +2,9 @@
 
 from flask import Blueprint, Response, jsonify
 
-
 from .blueprint_one_object import MyCoolObject
-from .logger import get_logger
 from .flask_helpers import get_current_app
-
+from .logger import get_logger
 
 # Modules should all setup logging like this so the log messages include the modules name.
 # If you were to list all loggers with something like...

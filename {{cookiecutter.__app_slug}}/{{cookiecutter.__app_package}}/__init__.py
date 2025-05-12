@@ -1,6 +1,5 @@
 """Flask webapp {{cookiecutter.__app_package}}."""
 
-from pathlib import Path
 from pprint import pformat
 
 from flask import render_template
@@ -16,7 +15,7 @@ def create_app(
     instance_path: str | None = None,
 ) -> Flask{{cookiecutter.__app_camel_case}}:
     """Create and configure an instance of the Flask application."""
-    app = Flask{{cookiecutter.__app_camel_case}}(__name__, instance_relative_config=True, instance_path=instance_path)  # Create Flask app object
+    app = Flask{{cookiecutter.__app_camel_case}}(__name__, instance_relative_config=True, instance_path=instance_path)
 
     logger.setup_logger(in_loggers=[app.logger])  # Setup flask logger with defaults
 
@@ -25,8 +24,6 @@ def create_app(
             app.logger.critical("When testing supply both test_config and instance_path!")
             raise AttributeError(instance_path)
         app.{{cookiecutter.__app_config_var}} = test_config
-    # else:
-    #     {{cookiecutter.__app_config_var}} = config.{{cookiecutter.__app_camel_case}}Config(instance_path=Path(app.instance_path))  # Loads app config from disk
 
     app.logger.debug("Instance path is: %s", app.instance_path)
 

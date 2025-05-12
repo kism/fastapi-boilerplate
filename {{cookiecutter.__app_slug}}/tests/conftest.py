@@ -8,9 +8,6 @@ import shutil
 from pathlib import Path
 
 import pytest
-import tomlkit
-from flask import Flask
-from flask.testing import FlaskClient, FlaskCliRunner
 
 from {{cookiecutter.__app_package}} import create_app
 from {{cookiecutter.__app_package}}.config import {{cookiecutter.__app_camel_case}}Config
@@ -41,8 +38,7 @@ def get_test_config(tmp_path, place_test_config, config_name: str = "testing_tru
 
     def _get_test_config(config_name: str = "testing_true_valid.toml"):
         place_test_config(config_name, tmp_path)
-        config = {{cookiecutter.__app_camel_case}}Config(instance_path=Path(tmp_path))
-        return config
+        return {{cookiecutter.__app_camel_case}}Config(instance_path=Path(tmp_path))
 
     return _get_test_config
 
