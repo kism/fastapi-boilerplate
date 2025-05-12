@@ -34,7 +34,7 @@ def start_blueprint_one() -> None:
 @bp.route("/hello/", methods=["GET"])
 def get_hello() -> tuple[Response, int]:
     """Hello GET Method."""
-    message = {"msg": current_app.config["app"]["my_message"]}
+    message = {"msg": current_app.config["app"].my_message}
     status = 200
 
     logger.debug(

@@ -33,7 +33,7 @@ def create_app(test_config: dict | None = None, instance_path: str | None = None
     app.config.from_mapping({{cookiecutter.__app_config_var}}.flask.dict())
 
     # Other sections handled by config.py
-    app.config.from_object(config)  # Load config from config.py
+    app.config["app"] = {{cookiecutter.__app_config_var}}.app
 
     # Do some debug logging of config
     app_config_str = ">>>\nFlask config:"
