@@ -28,7 +28,7 @@ def create_app(test_config: dict | None = None, instance_path: str | None = None
 
     app.logger.debug("Instance path is: %s", app.instance_path)
 
-    logger.setup_logger(app, {{cookiecutter.__app_config_var}}["logging"])  # Setup logger with config
+    logger.setup_logger(log_level={{cookiecutter.__app_config_var}}.logging.level, log_path={{cookiecutter.__app_config_var}}.logging.path )  # Setup logger with config
 
     # Flask config, at the root of the config object.
     app.config.from_mapping({{cookiecutter.__app_config_var}}["flask"])
