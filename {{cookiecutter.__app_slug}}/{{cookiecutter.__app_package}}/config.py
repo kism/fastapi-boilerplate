@@ -74,7 +74,7 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
                 if key == "flask" and isinstance(value, dict):
                     self.flask = FlaskConfDef(**value)
                 elif key == "app" and isinstance(value, dict):
-                    self.app = [AppConfDef(**value)]
+                    self.app = AppConfDef(**value)
                 elif key == "logging" and isinstance(value, dict):
                     self.logging = LoggingConfDef(**value)
                 elif hasattr(self, key):
@@ -82,16 +82,9 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
 
     def write_config(self) -> None:
         """Write the current settings to a TOML file."""
-        if not self.config_path:
-            msg = "No config path specified."
-            raise ValueError(msg)
-
-        # Convert settings to a dictionary
         logger.info("Writing config to %s", self.config_path)
-        config_data_str = self.model_dump_json()
-
-        config_data = json.loads(config_data_str)
-        config_data.pop("config_path", None)
+        config_data = json.loads(self.model_dump_json()) # This is how we make the object safe for tomlkit
+        config_data.pop("config_path", None) # Remove config_path from the data to be written
 
         # Write to the TOML file
         if not self.config_path.parent.exists():

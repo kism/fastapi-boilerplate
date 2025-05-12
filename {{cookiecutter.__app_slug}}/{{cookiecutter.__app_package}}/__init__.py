@@ -25,14 +25,18 @@ def create_app(test_config: config.{{cookiecutter.__app_camel_case}}Config | Non
 
     app.logger.debug("Instance path is: %s", app.instance_path)
 
-    logger.setup_logger(log_level={{cookiecutter.__app_config_var}}.logging.level, log_path={{cookiecutter.__app_config_var}}.logging.path, in_loggers=[app.logger] )  # Setup logger with config
+    logger.setup_logger(  # Setup logger with config
+        log_level={{cookiecutter.__app_config_var}}.logging.level,
+        log_path={{cookiecutter.__app_config_var}}.logging.path,
+        in_loggers=[app.logger],
+        )
 
     # Flask config, at the root of the config object.
     app.config.from_mapping({{cookiecutter.__app_config_var}}.flask.dict())
 
     # The flask config object is a subclass of the dict object, I use dict entries to hold the configuration objects.
-    app.config['app'] = {{cookiecutter.__app_config_var}}.app
-    app.config['logging'] = {{cookiecutter.__app_config_var}}.logging
+    app.config["app"] = {{cookiecutter.__app_config_var}}.app
+    app.config["logging"] = {{cookiecutter.__app_config_var}}.logging
 
 
     # Do some debug logging of config
