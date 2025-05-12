@@ -15,8 +15,7 @@ def create_app(test_config: dict | None = None, instance_path: str | None = None
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True, instance_path=instance_path)  # Create Flask app object
 
-    logger.setup_logger()  # Setup logger with defaults
-    logger.setup_logger(in_logger=app.logger)  # Setup flask logger with defaults
+    logger.setup_logger(in_loggers=[app.logger])  # Setup flask logger with defaults
 
     if test_config:  # For Python testing we will often pass in a config
         if not instance_path:
@@ -28,15 +27,13 @@ def create_app(test_config: dict | None = None, instance_path: str | None = None
 
     app.logger.debug("Instance path is: %s", app.instance_path)
 
-    logger.setup_logger(log_level={{cookiecutter.__app_config_var}}.logging.level, log_path={{cookiecutter.__app_config_var}}.logging.path )  # Setup logger with config
+    logger.setup_logger(log_level={{cookiecutter.__app_config_var}}.logging.level, log_path={{cookiecutter.__app_config_var}}.logging.path, in_loggers=[app.logger] )  # Setup logger with config
 
     # Flask config, at the root of the config object.
     app.config.from_mapping({{cookiecutter.__app_config_var}}.flask.dict())
 
     # Other sections handled by config.py
-    for key, value in {{cookiecutter.__app_config_var}}.dict().items():
-        if key != "flask":
-            app.config[key] = value
+    app.config.from_object(config)  # Load config from config.py
 
     # Do some debug logging of config
     app_config_str = ">>>\nFlask config:"

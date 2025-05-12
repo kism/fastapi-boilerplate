@@ -8,7 +8,9 @@ class MyCoolObject:
     def __init__(self, {{cookiecutter.__app_config_var}}: dict) -> None:
         """Init config for the NGINX Allowlist Writer."""
         # Monitor Writing
-        self._my_message = {{cookiecutter.__app_config_var}}["app"]["my_message"]
+        print({{cookiecutter.__app_config_var}})
+
+        self._my_message = {{cookiecutter.__app_config_var}}['app'].my_message
 
     def get_my_message_backwards(self) -> str:
         """Return the string backwards."""

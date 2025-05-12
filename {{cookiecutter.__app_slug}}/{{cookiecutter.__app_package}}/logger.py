@@ -49,7 +49,9 @@ logger = cast("CustomLogger", logging.getLogger(__name__))
 def setup_logger(
     log_level: str | int = logging.INFO,
     log_path: Path | None = None,
-    in_logger: logging.Logger | None = None,
+    in_loggers: list[logging.Logger] = [],
+    *,
+    include_root_logger: bool = True,
 ) -> None:
     """Setup the logger, set configuration per logging_conf.
 
@@ -58,20 +60,23 @@ def setup_logger(
         log_path: Path to log to.
         in_logger: Logger to configure, useful for testing.
     """
-    if not in_logger:  # in_logger, used for pytest or passing in another logger
-        in_logger = logging.getLogger()  # Get the root logger
+    if (
+        not include_root_logger
+    ):  # in_logger, used for pytest or passing in another logger
+        in_loggers.append(logging.getLogger())  # Get the root logger
 
-    # If the logger doesn't have a console handler (root logger doesn't by default)
-    if not _has_console_handler(in_logger):
-        _add_console_handler(in_logger)
+    for in_logger in in_loggers:
+        # If the logger doesn't have a console handler (root logger doesn't by default)
+        if not _has_console_handler(in_logger):
+            _add_console_handler(in_logger)
 
-    _set_log_level(in_logger, log_level)
+        _set_log_level(in_logger, log_level)
 
-    # If we are logging to a file
-    if not _has_file_handler(in_logger) and log_path:
-        _add_file_handler(in_logger, log_path)
+        # If we are logging to a file
+        if not _has_file_handler(in_logger) and log_path:
+            _add_file_handler(in_logger, log_path)
 
-    logger.debug("Logger configuration set!")
+        logger.debug("Logger configuration set!")
 
 
 def get_logger(name: str) -> CustomLogger:
