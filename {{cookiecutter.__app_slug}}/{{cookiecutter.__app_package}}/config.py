@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+from typing import Any
 
 import tomlkit
 from pydantic import BaseModel
@@ -25,6 +26,17 @@ class AppConfDef(BaseModel):
     """Application configuration definition."""
 
     my_message: str = "Hello, World!"
+
+    def __init__(self, **kwargs: Any) -> None: # noqa: ANN401 # Don't know how to avoid this
+        """Initialize the configuration and validate it."""
+        super().__init__(**kwargs)
+        self.custom_validate()
+
+    def custom_validate(self) -> None:
+        """Validate the configuration."""
+        if self.my_message == "":
+            msg = "AppConfDef: my_message cannot be empty"
+            raise ValueError(msg)
 
 class LoggingConfDef(BaseModel):
     """Logging configuration definition."""
@@ -61,6 +73,7 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
 
         self.config_path = Path(instance_path / "config.toml")
         self._load_from_toml()
+        self.custom_validate()
         self.write_config()
 
     def _load_from_toml(self) -> None:
@@ -80,6 +93,10 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
                 elif hasattr(self, key):
                     setattr(self, key, value)
 
+    def custom_validate(self) -> None:
+        """Validate the loaded settings."""
+        self.app.custom_validate()
+
     def write_config(self) -> None:
         """Write the current settings to a TOML file."""
         logger.info("Writing config to %s", self.config_path)
@@ -92,5 +109,3 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
 
         with self.config_path.open("w") as f:
             tomlkit.dump(config_data, f)
-
-

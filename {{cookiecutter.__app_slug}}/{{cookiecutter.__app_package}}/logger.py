@@ -62,9 +62,7 @@ def setup_logger(
     if in_loggers is None:  # Fun python things
         in_loggers = []
 
-    if (
-        not include_root_logger
-    ):  # in_logger, used for pytest or passing in another logger
+    if not include_root_logger:  # in_logger, used for pytest or passing in another logger
         in_loggers.append(logging.getLogger())  # Get the root logger
 
     for in_logger in in_loggers:
@@ -88,16 +86,12 @@ def get_logger(name: str) -> CustomLogger:
 
 def _has_file_handler(in_logger: logging.Logger) -> bool:
     """Check if logger has a file handler."""
-    return any(
-        isinstance(handler, logging.FileHandler) for handler in in_logger.handlers
-    )
+    return any(isinstance(handler, logging.FileHandler) for handler in in_logger.handlers)
 
 
 def _has_console_handler(in_logger: logging.Logger) -> bool:
     """Check if logger has a console handler."""
-    return any(
-        isinstance(handler, logging.StreamHandler) for handler in in_logger.handlers
-    )
+    return any(isinstance(handler, logging.StreamHandler) for handler in in_logger.handlers)
 
 
 def _add_console_handler(in_logger: logging.Logger) -> None:

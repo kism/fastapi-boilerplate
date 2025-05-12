@@ -1,8 +1,6 @@
 """Logger unit tests."""
 
 import logging
-import os
-from collections.abc import Generator
 
 import pytest
 
@@ -48,7 +46,7 @@ def test_config_logging_to_dir(logger, tmp_path):
 
 def test_handler_console_added(logger, app):
     """Test logging console handler."""
-    logging_conf = {'log_level': "INFO", "log_path": "", 'in_loggers': [logger]}
+    logging_conf = {"log_level": "INFO", "log_path": "", "in_loggers": [logger]}
 
     # TEST: Only one handler (console), should exist when no logging path provided
     {{cookiecutter.__app_package}}.logger.setup_logger(**logging_conf)
@@ -61,7 +59,7 @@ def test_handler_console_added(logger, app):
 
 def test_handler_file_added(logger, tmp_path, app):
     """Test logging file handler."""
-    logging_conf = {'log_level': "INFO", "log_path": tmp_path / "test.log", 'in_loggers': [logger]}
+    logging_conf = {"log_level": "INFO", "log_path": tmp_path / "test.log", "in_loggers": [logger]}
 
     # TEST: Two handlers when logging to file expected
     {{cookiecutter.__app_package}}.logger.setup_logger(**logging_conf)

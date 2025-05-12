@@ -9,9 +9,9 @@ Tests should always use the tmp_path fixture as an instance_path as it means the
 And thus in the boilerplate I have some checks to ensure that your tests aren't possibly getting polluted.
 """
 
-import pytest
-
 from pathlib import Path
+
+import pytest
 
 from {{cookiecutter.__app_package}} import create_app
 
@@ -28,7 +28,6 @@ def test_config_validate_test_instance_path(get_test_config):
     This test exists because I spent so much time troubleshooting why some tests are using the default instance path.
     """
     import contextlib
-    import os
     import random
     import shutil
     import string

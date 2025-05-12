@@ -3,7 +3,6 @@
 Fixtures defined in a conftest.py can be used by any test in that package without needing to import them.
 """
 
-import os
 import shutil
 from pathlib import Path
 

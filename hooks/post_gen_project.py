@@ -44,4 +44,3 @@ j2_file_content = j2_file_content.replace(
 
 with open(file_path, "w") as file:
     file.write(j2_file_content)
-

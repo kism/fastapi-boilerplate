@@ -13,14 +13,7 @@ class MyCoolObject:
         """Init MyCoolObject."""
         logger.debug("Creating MyCoolObject")
         logger.debug({{cookiecutter.__app_config_var}})
-        self._my_message = {{cookiecutter.__app_config_var}}.my_message
-        self._validate()
-
-    def _validate(self) -> None:
-        """Validate the object."""
-        if len(self._my_message) < 1:
-            msg = "my_message must be at least 1 character long"
-            raise ValueError(msg)
+        self._my_message = {{cookiecutter.__app_config_var}}.my_message # Already validated
 
     def get_my_message_backwards(self) -> str:
         """Return the string backwards."""
