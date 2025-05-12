@@ -42,3 +42,9 @@ pipx run cookiecutter gh:kism/flask-boilerplate
 ```
 
 After some prompts, this will create the new project directory in the current directory, with the name you specified.
+
+## Development
+
+Wahoo
+
+`cd ~/src && cookiecutter --overwrite-if-exists --default-config flask-boilerplate && cd ~/src/my-cool-app && uv venv && source .venv/bin/activate && uv sync`
