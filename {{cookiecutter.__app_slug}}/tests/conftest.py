@@ -33,10 +33,10 @@ def client(app):
 
 
 @pytest.fixture
-def get_test_config(tmp_path, place_test_config, config_name: str = "testing_true_valid.toml"):
+def get_test_config(tmp_path, place_test_config):
     """Function returns a function, which is how it needs to be."""
 
-    def _get_test_config(config_name: str = "testing_true_valid.toml"):
+    def _get_test_config(config_name):
         place_test_config(config_name, tmp_path)
         return {{cookiecutter.__app_camel_case}}Config(instance_path=Path(tmp_path))
 

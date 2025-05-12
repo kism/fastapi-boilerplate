@@ -19,7 +19,7 @@ from {{cookiecutter.__app_package}} import create_app
 def test_instance_path_check(get_test_config):
     """TEST: When passed a dictionary as a config, the instance path must be specified."""
     with pytest.raises(AttributeError):
-        create_app(test_config=get_test_config())
+        create_app(test_config=get_test_config("testing_true_valid.toml"))
 
 
 def test_config_validate_test_instance_path(get_test_config):
@@ -45,5 +45,5 @@ def test_config_validate_test_instance_path(get_test_config):
         incorrect_instance_root.mkdir()
         incorrect_instance_path.mkdir()
 
-    create_app(test_config=get_test_config(), instance_path=incorrect_instance_path)
+    create_app(test_config=get_test_config("testing_true_valid.toml"), instance_path=incorrect_instance_path)
     shutil.rmtree(incorrect_instance_root)

@@ -90,7 +90,7 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
         if not self.config_path.parent.exists():
             self.config_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(self.config_path, "w") as f:
+        with self.config_path.open("w") as f:
             tomlkit.dump(config_data, f)
 
 
