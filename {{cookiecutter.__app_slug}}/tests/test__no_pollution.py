@@ -11,6 +11,8 @@ And thus in the boilerplate I have some checks to ensure that your tests aren't 
 
 import pytest
 
+from pathlib import Path
+
 from {{cookiecutter.__app_package}} import create_app
 
 
@@ -32,16 +34,16 @@ def test_config_validate_test_instance_path(get_test_config):
     import string
 
     # Please always use tmp_path and never do this outside of this test.
-    repo_instance_path = os.path.join(os.getcwd(), "instance")
-    incorrect_instance_root = os.path.join(repo_instance_path, "_TEST")
+    repo_instance_path = Path.cwd() / "instance"
+    incorrect_instance_root = Path(repo_instance_path) / "_TEST"
     random_string = "".join(random.choice(string.ascii_uppercase) for _ in range(8))
-    incorrect_instance_path = os.path.join(incorrect_instance_root, random_string)
+    incorrect_instance_path = incorrect_instance_root / random_string
 
     with contextlib.suppress(FileNotFoundError, FileExistsError):
-        os.mkdir(repo_instance_path)
+        repo_instance_path.mkdir()
         shutil.rmtree(incorrect_instance_root)
-        os.mkdir(incorrect_instance_root)
-        os.mkdir(incorrect_instance_path)
+        incorrect_instance_root.mkdir()
+        incorrect_instance_path.mkdir()
 
     create_app(test_config=get_test_config(), instance_path=incorrect_instance_path)
     shutil.rmtree(incorrect_instance_root)

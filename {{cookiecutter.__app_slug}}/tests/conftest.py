@@ -12,7 +12,7 @@ import pytest
 from {{cookiecutter.__app_package}} import create_app
 from {{cookiecutter.__app_package}}.config import {{cookiecutter.__app_camel_case}}Config
 
-TEST_CONFIGS_LOCATION = os.path.join(os.getcwd(), "tests", "configs")
+TEST_CONFIGS_LOCATION = Path.cwd() / "tests" / "configs"
 
 
 def pytest_configure():
@@ -51,8 +51,8 @@ def place_test_config():
 
     def _place_test_config(config_name: str, path: str) -> None:
         """Place config in tmp_path by name."""
-        filepath = os.path.join(TEST_CONFIGS_LOCATION, config_name)
-
-        shutil.copyfile(filepath, os.path.join(path, "config.toml"))
+        filepath = TEST_CONFIGS_LOCATION / config_name
+        config_path = Path(path) / "config.toml"
+        shutil.copyfile(filepath, config_path)
 
     return _place_test_config

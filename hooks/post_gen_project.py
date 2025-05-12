@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from pathlib import Path
 import os
 import subprocess
 
@@ -8,7 +9,7 @@ __app_package = "{{ cookiecutter.__app_package }}"
 print()
 print(f"--- Running post generating scripts for: {__app_package} ---")
 
-original_dir = os.getcwd()
+original_dir = Path.cwd()
 
 print("Grabbing CSS:")
 
