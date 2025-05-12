@@ -31,10 +31,10 @@ def create_app(test_config: dict | None = None, instance_path: str | None = None
     logger.setup_logger(log_level={{cookiecutter.__app_config_var}}.logging.level, log_path={{cookiecutter.__app_config_var}}.logging.path )  # Setup logger with config
 
     # Flask config, at the root of the config object.
-    app.config.from_mapping({{cookiecutter.__app_config_var}}["flask"])
+    app.config.from_mapping({{cookiecutter.__app_config_var}}.flask.dict())
 
     # Other sections handled by config.py
-    for key, value in {{cookiecutter.__app_config_var}}.items():
+    for key, value in {{cookiecutter.__app_config_var}}.dict().items():
         if key != "flask":
             app.config[key] = value
 
