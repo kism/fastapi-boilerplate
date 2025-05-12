@@ -1,8 +1,8 @@
 # KiSM's Flask Boilerplate
 
-![Lint](https://github.com/kism/flask-boilerplate/actions/workflows/lint.yml/badge.svg)
-![Test](https://github.com/kism/flask-boilerplate/actions/workflows/check_types.yml/badge.svg)
-![Test](https://github.com/kism/flask-boilerplate/actions/workflows/test.yml/badge.svg)
+[![Lint](https://github.com/kism/flask-boilerplate/actions/workflows/lint.yml/badge.svg)](https://github.com/kism/flask-boilerplate/actions/workflows/lint.yml)
+[![Test](https://github.com/kism/flask-boilerplate/actions/workflows/check_types.yml/badge.svg)](https://github.com/kism/flask-boilerplate/actions/workflows/check_types.yml)
+[![Test](https://github.com/kism/flask-boilerplate/actions/workflows/test.yml/badge.svg)](https://github.com/kism/flask-boilerplate/actions/workflows/test.yml)
 [![codecov](https://codecov.io/github/kism/flask-boilerplate/graph/badge.svg?token=NARIB5JF9M)](https://codecov.io/github/kism/flask-boilerplate)
 
 ## Why this boilerplate?
