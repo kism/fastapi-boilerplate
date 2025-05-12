@@ -33,7 +33,7 @@ jobs:
 
       - name: Install the project
         working-directory: ../my-cool-app
-        run: uv sync --no-group test --no-group lint --no-group dev
+        run: uv sync --no-group test --no-group lint
 
       - name: Check types with mypy
         working-directory: ../my-cool-app

@@ -34,7 +34,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: ../my-cool-app
-        run: uv sync --no-group type --no-group lint --no-group dev
+        run: uv sync --no-group type --no-group lint
 
       - name: Test templated project with pytest
         working-directory: ../my-cool-app

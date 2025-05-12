@@ -32,7 +32,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: ../my-cool-app
-        run: uv sync --no-group test --no-group type --no-group dev
+        run: uv sync --no-group test --no-group type
 
       - name: Lint with ruff
         working-directory: ../my-cool-app

@@ -22,7 +22,7 @@ flask --app {{cookiecutter.__app_package}} run --port 5000
 
 ```bash
 uv venv
-uv sync --no-group dev --no-group test --no-group type --no-group lint
+uv sync --no-group test --no-group type --no-group lint
 
 .venv/bin/waitress-serve \
     --listen "127.0.0.1:5000" \
