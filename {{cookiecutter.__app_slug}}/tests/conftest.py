@@ -23,39 +23,27 @@ def pytest_configure():
 
 
 @pytest.fixture
-def app(tmp_path, get_test_config) -> Flask:
+def app(tmp_path, get_test_config):
     """This fixture uses the default config within the flask app."""
     return create_app(test_config=get_test_config("testing_true_valid.toml"), instance_path=tmp_path)
 
 
 @pytest.fixture
-def client(app) -> FlaskClient:
+def client(app):
     """This returns a test client for the default app()."""
     return app.test_client()
 
 
 @pytest.fixture
-def runner(app) -> FlaskCliRunner:
-    """TODO?????"""
-    return app.test_cli_runner()
-
-
-@pytest.fixture
-def get_test_config() -> Callable:
+def get_test_config():
     """Function returns a function, which is how it needs to be."""
+    from . import testing_true_valid
+    return testing_true_valid
 
-    def _get_test_config(config_name: str) -> dict:
-        """Load all the .toml configs into a single dict."""
-        filepath = os.path.join(TEST_CONFIGS_LOCATION, config_name)
-
-        with open(filepath) as file:
-            return tomlkit.load(file)
-
-    return _get_test_config
 
 
 @pytest.fixture
-def place_test_config() -> Callable:
+def place_test_config():
     """Fixture that places a config in the tmp_path.
 
     Returns: a function to place a config in the tmp_path.

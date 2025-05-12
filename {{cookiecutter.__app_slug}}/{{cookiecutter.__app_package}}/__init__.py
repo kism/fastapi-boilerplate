@@ -11,7 +11,6 @@ from .flask_helpers import Flask{{cookiecutter.__app_camel_case}}
 __version__ = "0.0.1"  # This is the version of the app, used in pyproject.toml, enforced in a test.
 
 
-
 def create_app(
     test_config: config.{{cookiecutter.__app_camel_case}}Config | None = None,
     instance_path: str | None = None,
