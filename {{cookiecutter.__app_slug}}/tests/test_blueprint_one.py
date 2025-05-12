@@ -23,10 +23,8 @@ def test_hello_with_config(tmp_path, get_test_config, caplog):
     json_data = response.get_json()
     assert json_data["msg"] == "Hello, PyTest!", "Incorrect response from /hello/ when using non-default config."
 
-    expected_log = (
-        "GET request to /hello/, returning: {'msg': 'Hello, PyTest!'} as json,"
-        " due to config: {'my_message': 'Hello, PyTest!'}"
-    )
+    expected_log = "GET request to /hello/, returning: {'msg': 'Hello, PyTest!'} as json, due to config: my_message='Hello, PyTest!'"  # noqa: E501 # Its a long log message
+
     with caplog.at_level(logging.DEBUG):
         assert expected_log in caplog.text
 
