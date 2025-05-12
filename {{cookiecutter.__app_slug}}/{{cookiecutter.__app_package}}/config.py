@@ -92,3 +92,5 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
 
         with open(self.config_path, "w") as f:
             tomlkit.dump(config_data, f)
+
+

@@ -3,15 +3,21 @@
 from pathlib import Path
 from pprint import pformat
 
-from flask import Flask, render_template
+from flask import render_template
 
 from . import blueprint_one, config, logger
+from .flask_helpers import Flask{{cookiecutter.__app_camel_case}}
 
 __version__ = "0.0.1"  # This is the version of the app, used in pyproject.toml, enforced in a test.
 
-def create_app(test_config: config.{{cookiecutter.__app_camel_case}}Config | None = None, instance_path: str | None = None) -> Flask:
+
+
+def create_app(
+    test_config: config.{{cookiecutter.__app_camel_case}}Config | None = None,
+    instance_path: str | None = None,
+) -> Flask{{cookiecutter.__app_camel_case}}:
     """Create and configure an instance of the Flask application."""
-    app = Flask(__name__, instance_relative_config=True, instance_path=instance_path)  # Create Flask app object
+    app = Flask{{cookiecutter.__app_camel_case}}(__name__, instance_relative_config=True, instance_path=instance_path)  # Create Flask app object
 
     logger.setup_logger(in_loggers=[app.logger])  # Setup flask logger with defaults
 
@@ -19,25 +25,20 @@ def create_app(test_config: config.{{cookiecutter.__app_camel_case}}Config | Non
         if not instance_path:
             app.logger.critical("When testing supply both test_config and instance_path!")
             raise AttributeError(instance_path)
-        {{cookiecutter.__app_config_var}} = test_config
-    else:
-        {{cookiecutter.__app_config_var}} = config.{{cookiecutter.__app_camel_case}}Config(instance_path=Path(app.instance_path))  # Loads app config from disk
+        app.{{cookiecutter.__app_config_var}} = test_config
+    # else:
+    #     {{cookiecutter.__app_config_var}} = config.{{cookiecutter.__app_camel_case}}Config(instance_path=Path(app.instance_path))  # Loads app config from disk
 
     app.logger.debug("Instance path is: %s", app.instance_path)
 
     logger.setup_logger(  # Setup logger with config
-        log_level={{cookiecutter.__app_config_var}}.logging.level,
-        log_path={{cookiecutter.__app_config_var}}.logging.path,
+        log_level=app.{{cookiecutter.__app_config_var}}.logging.level,
+        log_path=app.{{cookiecutter.__app_config_var}}.logging.path,
         in_loggers=[app.logger],
         )
 
     # Flask config, at the root of the config object.
-    app.config.from_mapping({{cookiecutter.__app_config_var}}.flask.dict())
-
-    # The flask config object is a subclass of the dict object, I use dict entries to hold the configuration objects.
-    app.config["app"] = {{cookiecutter.__app_config_var}}.app
-    app.config["logging"] = {{cookiecutter.__app_config_var}}.logging
-
+    app.config.from_mapping(app.{{cookiecutter.__app_config_var}}.flask.dict())
 
     # Do some debug logging of config
     app_config_str = ">>>\nFlask config:"

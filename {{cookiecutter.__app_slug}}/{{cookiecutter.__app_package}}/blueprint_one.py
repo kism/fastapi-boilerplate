@@ -1,9 +1,12 @@
 """Blueprint one's object..."""
 
-from flask import Blueprint, Response, current_app, jsonify
+from flask import Blueprint, Response, jsonify
+
 
 from .blueprint_one_object import MyCoolObject
 from .logger import get_logger
+from .flask_helpers import get_current_app
+
 
 # Modules should all setup logging like this so the log messages include the modules name.
 # If you were to list all loggers with something like...
@@ -17,7 +20,7 @@ logger = get_logger(
 bp = Blueprint("{{cookiecutter.__app_package}}", __name__)
 
 my_cool_object: MyCoolObject | None = None
-
+current_app = get_current_app()
 
 # KISM-BOILERPLATE:
 # So regarding current_app, have a read of https://flask.palletsprojects.com/en/3.0.x/appcontext/
@@ -30,7 +33,7 @@ def start_blueprint_one() -> None:
     """Method to 'configure' this module. Needs to be called under `with app.app_context():` from __init__.py."""
     global my_cool_object  # noqa: PLW0603 Necessary evil as far as I can tell, could move to all objects but eh...
     my_cool_object = MyCoolObject(
-        current_app.config["app"]
+        current_app.{{cookiecutter.__app_config_var}}.app
     )  # Create the object with the config from the app object
 
 
@@ -38,13 +41,13 @@ def start_blueprint_one() -> None:
 @bp.route("/hello/", methods=["GET"])
 def get_hello() -> tuple[Response, int]:
     """Hello GET Method."""
-    message = {"msg": current_app.config["app"].my_message}
+    message = {"msg": current_app.{{cookiecutter.__app_config_var}}.app.my_message} # We don't use the object here, but we could.
     status = 200
 
     logger.debug(
         "GET request to /hello/, returning: %s as json, due to config: %s",
         message,
-        current_app.config["app"],
+        current_app.{{cookiecutter.__app_config_var}}.app,
     )
 
     return jsonify(message), status  # Return json, not a webpage.
