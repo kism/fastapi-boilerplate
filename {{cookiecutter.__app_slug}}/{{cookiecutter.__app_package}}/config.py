@@ -3,8 +3,6 @@
 import json
 from pathlib import Path
 
-from typing import Optional
-
 import tomlkit
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -29,7 +27,6 @@ class AppConfDef(BaseModel):
     my_message: str = "Hello, World!"
 
 class LoggingConfDef(BaseModel):
-
     """Logging configuration definition."""
 
     level: str = "INFO"
@@ -44,7 +41,7 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
     logging: LoggingConfDef = LoggingConfDef()
 
     # Custom path for the config file
-    config_path: Path | None = None
+    config_path: Path = Path()
 
     # Configure settings class
     model_config = SettingsConfigDict(
@@ -57,7 +54,7 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
         """Initialize settings and load from a TOML file if provided.
 
         Args:
-            config_path (str): Path to the TOML configuration file.
+            instance_path (str): Path to load config.toml
         """
         # Initialize with default values first
         super().__init__()
@@ -68,30 +65,16 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
 
     def _load_from_toml(self) -> None:
         """Load settings from the TOML file specified in config_path."""
-        if not self.config_path or not self.config_path.exists():
-            # Try default locations if no specific path was provided or the path doesn't exist
-            default_paths = [
-                Path.cwd() / "config.toml",  # Current working directory
-                Path(__file__).parent.parent / "config.toml",  # Project root
-            ]
-
-            for path in default_paths:
-                if path.exists():
-                    self.config_path = path
-                    break
-            else:
-                # No config file found, keep using default values
-                return
-
+        if self.config_path.is_file():
             with self.config_path.open("r") as f:
                 config_data = tomlkit.load(f)
 
             # Update our settings from the loaded data
             for key, value in config_data.items():
                 if key == "flask" and isinstance(value, dict):
-                    self.target = FlaskConfDef(**value)
+                    self.flask = FlaskConfDef(**value)
                 elif key == "app" and isinstance(value, dict):
-                    self.systems = [AppConfDef(**value)]
+                    self.app = [AppConfDef(**value)]
                 elif key == "logging" and isinstance(value, dict):
                     self.logging = LoggingConfDef(**value)
                 elif hasattr(self, key):

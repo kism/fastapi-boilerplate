@@ -1,16 +1,26 @@
 """Demo object."""
 
+from .config import AppConfDef
+from .logger import get_logger
+
+logger = get_logger(__name__)
 
 # KISM-BOILERPLATE: Demo object, doesn't do much
 class MyCoolObject:
     """Demo object."""
 
-    def __init__(self, {{cookiecutter.__app_config_var}}: dict) -> None:
-        """Init config for the NGINX Allowlist Writer."""
-        # Monitor Writing
-        print({{cookiecutter.__app_config_var}})
-
+    def __init__(self, {{cookiecutter.__app_config_var}}: AppConfDef) -> None:
+        """Init MyCoolObject."""
+        logger.debug("Creating MyCoolObject")
+        logger.debug({{cookiecutter.__app_config_var}})
         self._my_message = {{cookiecutter.__app_config_var}}.my_message
+        self._validate()
+
+    def _validate(self) -> None:
+        """Validate the object."""
+        if len(self._my_message) < 1:
+            msg = "my_message must be at least 1 character long"
+            raise ValueError(msg)
 
     def get_my_message_backwards(self) -> str:
         """Return the string backwards."""
