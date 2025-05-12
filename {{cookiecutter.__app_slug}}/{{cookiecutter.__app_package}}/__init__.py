@@ -31,7 +31,7 @@ def create_app(
         log_level=app.{{cookiecutter.__app_config_var}}.logging.level,
         log_path=app.{{cookiecutter.__app_config_var}}.logging.path,
         in_loggers=[app.logger],
-        )
+    )
 
     # Flask config, at the root of the config object.
     app.config.from_mapping(app.{{cookiecutter.__app_config_var}}.flask.model_dump())

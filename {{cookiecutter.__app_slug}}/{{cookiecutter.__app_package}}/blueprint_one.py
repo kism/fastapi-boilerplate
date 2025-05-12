@@ -10,15 +10,14 @@ from .logger import get_logger
 # If you were to list all loggers with something like...
 # `loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict]`
 # Before creating this object, you would not see a logger with this modules name ({{cookiecutter.__app_package}}.this_module_name)
-logger = get_logger(
-    __name__
-)  # Create a logger: {{cookiecutter.__app_package}}.this_module_name, inherit config from root logger
+logger = get_logger(__name__)  # Create a logger: {{cookiecutter.__app_package}}.this_module_name, inherit config from root logger
 
 # Register this module (__name__) as available to the blueprints of {{cookiecutter.__app_package}}, I think https://flask.palletsprojects.com/en/3.0.x/blueprints/
 bp = Blueprint("{{cookiecutter.__app_package}}", __name__)
 
 my_cool_object: MyCoolObject | None = None
 current_app = get_current_app()
+
 
 # KISM-BOILERPLATE:
 # So regarding current_app, have a read of https://flask.palletsprojects.com/en/3.0.x/appcontext/
@@ -30,16 +29,14 @@ current_app = get_current_app()
 def start_blueprint_one() -> None:
     """Method to 'configure' this module. Needs to be called under `with app.app_context():` from __init__.py."""
     global my_cool_object  # noqa: PLW0603 Necessary evil as far as I can tell, could move to all objects but eh...
-    my_cool_object = MyCoolObject(
-        current_app.{{cookiecutter.__app_config_var}}.app
-    )  # Create the object with the config from the app object
+    my_cool_object = MyCoolObject(current_app.{{cookiecutter.__app_config_var}}.app)  # Create the object with the config from the app object
 
 
 # KISM-BOILERPLATE: This is the demo api endpoint, enough to show a basic javascript interaction.
 @bp.route("/hello/", methods=["GET"])
 def get_hello() -> tuple[Response, int]:
     """Hello GET Method."""
-    message = {"msg": current_app.{{cookiecutter.__app_config_var}}.app.my_message} # We don't use the object here, but we could.
+    message = {"msg": current_app.{{cookiecutter.__app_config_var}}.app.my_message}  # We don't use the object here, but we could.
     status = 200
 
     logger.debug(

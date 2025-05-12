@@ -27,7 +27,7 @@ class AppConfDef(BaseModel):
 
     my_message: str = "Hello, World!"
 
-    def __init__(self, **kwargs: Any) -> None: # noqa: ANN401 # Don't know how to avoid this
+    def __init__(self, **kwargs: Any) -> None:  # noqa: ANN401 # Don't know how to avoid this
         """Initialize the configuration and validate it."""
         super().__init__(**kwargs)
         self.custom_validate()
@@ -38,11 +38,13 @@ class AppConfDef(BaseModel):
             msg = "AppConfDef: my_message cannot be empty"
             raise ValueError(msg)
 
+
 class LoggingConfDef(BaseModel):
     """Logging configuration definition."""
 
     level: str = "INFO"
     path: Path | str = ""
+
 
 class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
     """Settings loaded from a TOML file."""
@@ -51,6 +53,7 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
     app: AppConfDef = AppConfDef()
     flask: FlaskConfDef = FlaskConfDef()
     logging: LoggingConfDef = LoggingConfDef()
+    top_level_field_for_a_laugh: str = "This is a top level field"
 
     # Custom path for the config file
     config_path: Path = Path()
@@ -100,8 +103,8 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
     def write_config(self) -> None:
         """Write the current settings to a TOML file."""
         logger.info("Writing config to %s", self.config_path)
-        config_data = json.loads(self.model_dump_json()) # This is how we make the object safe for tomlkit
-        config_data.pop("config_path", None) # Remove config_path from the data to be written
+        config_data = json.loads(self.model_dump_json())  # This is how we make the object safe for tomlkit
+        config_data.pop("config_path", None)  # Remove config_path from the data to be written
 
         # Write to the TOML file
         if not self.config_path.parent.exists():

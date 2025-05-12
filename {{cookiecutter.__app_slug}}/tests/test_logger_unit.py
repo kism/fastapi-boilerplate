@@ -46,26 +46,34 @@ def test_config_logging_to_dir(logger, tmp_path):
 
 def test_handler_console_added(logger, app):
     """Test logging console handler."""
-    logging_conf = {"log_level": "INFO", "log_path": "", "in_loggers": [logger]}
+    logging_conf = {
+        "log_level": "INFO",
+        "log_path": "",
+        "in_loggers": [logger],
+        "include_root_logger": False,
+    }
 
-    # TEST: Only one handler (console), should exist when no logging path provided
     {{cookiecutter.__app_package}}.logger.setup_logger(**logging_conf)
     assert len(logger.handlers) == 1
 
-    # TEST: If a console handler exists, another one shouldn't be created
+    # TEST: Still only one handler
     {{cookiecutter.__app_package}}.logger.setup_logger(**logging_conf)
     assert len(logger.handlers) == 1
 
 
 def test_handler_file_added(logger, tmp_path, app):
     """Test logging file handler."""
-    logging_conf = {"log_level": "INFO", "log_path": tmp_path / "test.log", "in_loggers": [logger]}
+    logging_conf = {
+        "log_level": "INFO",
+        "log_path": tmp_path / "test.log",
+        "in_loggers": [logger],
+        "include_root_logger": False,
+    }
 
-    # TEST: Two handlers when logging to file expected
     {{cookiecutter.__app_package}}.logger.setup_logger(**logging_conf)
     assert len(logger.handlers) == 2  # noqa: PLR2004 A console and a file handler are expected
 
-    # TEST: Two handlers when logging to file expected, another one shouldn't be created
+    # TEST: Still two handlers
     {{cookiecutter.__app_package}}.logger.setup_logger(**logging_conf)
     assert len(logger.handlers) == 2  # noqa: PLR2004 A console and a file handler are expected
 
@@ -83,6 +91,13 @@ def test_set_log_level(log_level_in: str | int, log_level_expected: int, logger)
     """Test if _set_log_level results in correct log_level."""
     from {{cookiecutter.__app_package}}.logger import _set_log_level
 
-    # TEST: Logger ends up with correct values
     _set_log_level(logger, log_level_in)
     assert logger.getEffectiveLevel() == log_level_expected
+
+
+def test_no_loggers_supplied():
+    """Test if no loggers supplied, root logger is used."""
+    from {{cookiecutter.__app_package}}.logger import setup_logger
+
+    # This is just for coverage
+    setup_logger(include_root_logger=False)

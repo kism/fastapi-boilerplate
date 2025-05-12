@@ -1,4 +1,5 @@
 """Flask helpers for {{cookiecutter.__app_camel_case}}."""
+
 from pathlib import Path
 from typing import Any, cast
 

@@ -62,8 +62,8 @@ def setup_logger(
     if in_loggers is None:  # Fun python things
         in_loggers = []
 
-    if not include_root_logger:  # in_logger, used for pytest or passing in another logger
-        in_loggers.append(logging.getLogger())  # Get the root logger
+    if include_root_logger:  # in_logger, used to exclude the root logger in pytest
+        in_loggers.append(logging.getLogger())  # pragma: no cover # get the root logger
 
     for in_logger in in_loggers:
         # If the logger doesn't have a console handler (root logger doesn't by default)

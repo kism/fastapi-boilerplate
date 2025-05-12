@@ -41,6 +41,7 @@ def get_test_config(tmp_path, place_test_config):
 
     return _get_test_config
 
+
 @pytest.fixture
 def place_test_config():
     """Fixture that places a config in the tmp_path.
