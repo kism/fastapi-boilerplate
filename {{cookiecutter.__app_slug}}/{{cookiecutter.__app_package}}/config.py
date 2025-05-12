@@ -26,6 +26,12 @@ class AppConfDef(BaseModel):
 
     my_message: str = "Hello, World!"
 
+class LoggingConfDef(BaseModel):
+
+    """Logging configuration definition."""
+
+    level: str = "INFO"
+    path: Path | None = None
 
 class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
     """Settings loaded from a TOML file."""
@@ -33,6 +39,7 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
     # Default values for our settings
     app: AppConfDef = AppConfDef()
     flask: FlaskConfDef = FlaskConfDef()
+    logging: LoggingConfDef = LoggingConfDef()
 
     # Custom path for the config file
     config_path: Path | None = None
@@ -50,15 +57,12 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
         Args:
             config_path (str): Path to the TOML configuration file.
         """
-        config_path = instance_path / "config.toml"
         # Initialize with default values first
         super().__init__()
 
-        # If a config_path is provided, load and override settings from that file
-        if config_path:
-            self.config_path = Path(config_path)
-            self._load_from_toml()
-            self.write_config()
+        self.config_path = Path(instance_path / "config.toml")
+        self._load_from_toml()
+        self.write_config()
 
     def _load_from_toml(self) -> None:
         """Load settings from the TOML file specified in config_path."""
@@ -83,11 +87,11 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
         # Update our settings from the loaded data
         for key, value in config_data.items():
             if key == "flask" and isinstance(value, dict):
-                # Handle target settings
                 self.target = FlaskConfDef(**value)
             elif key == "app" and isinstance(value, dict):
-                # Handle systems settings
                 self.systems = [AppConfDef(**value)]
+            elif key == "logging" and isinstance(value, dict):
+                self.logging = LoggingConfDef(**value)
             elif hasattr(self, key):
                 setattr(self, key, value)
 
@@ -105,5 +109,8 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
         config_data.pop("config_path", None)
 
         # Write to the TOML file
+        if not self.config_path.parent.exists():
+            self.config_path.parent.mkdir(parents=True, exist_ok=True)
+
         with open(self.config_path, "w") as f:
             tomlkit.dump(config_data, f)
