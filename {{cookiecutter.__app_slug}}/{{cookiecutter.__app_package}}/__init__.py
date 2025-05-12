@@ -1,8 +1,7 @@
 """Flask webapp {{cookiecutter.__app_package}}."""
 
-from pprint import pformat
-
 from pathlib import Path
+from pprint import pformat
 
 from flask import Flask, render_template
 
@@ -10,8 +9,7 @@ from . import blueprint_one, config, logger
 
 __version__ = "0.0.1"  # This is the version of the app, used in pyproject.toml, enforced in a test.
 
-
-def create_app(test_config: dict | None = None, instance_path: str | None = None) -> Flask:
+def create_app(test_config: config.{{cookiecutter.__app_camel_case}}Config | None = None, instance_path: str | None = None) -> Flask:
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True, instance_path=instance_path)  # Create Flask app object
 
@@ -21,7 +19,7 @@ def create_app(test_config: dict | None = None, instance_path: str | None = None
         if not instance_path:
             app.logger.critical("When testing supply both test_config and instance_path!")
             raise AttributeError(instance_path)
-        {{cookiecutter.__app_config_var}} = config.{{cookiecutter.__app_camel_case}}Config(config=test_config, instance_path=Path(app.instance_path))
+        {{cookiecutter.__app_config_var}} = test_config
     else:
         {{cookiecutter.__app_config_var}} = config.{{cookiecutter.__app_camel_case}}Config(instance_path=Path(app.instance_path))  # Loads app config from disk
 
@@ -32,8 +30,10 @@ def create_app(test_config: dict | None = None, instance_path: str | None = None
     # Flask config, at the root of the config object.
     app.config.from_mapping({{cookiecutter.__app_config_var}}.flask.dict())
 
-    # Other sections handled by config.py
-    app.config["app"] = {{cookiecutter.__app_config_var}}.app
+    # The flask config object is a subclass of the dict object, I use dict entries to hold the configuration objects.
+    app.config['app'] = {{cookiecutter.__app_config_var}}.app
+    app.config['logging'] = {{cookiecutter.__app_config_var}}.logging
+
 
     # Do some debug logging of config
     app_config_str = ">>>\nFlask config:"

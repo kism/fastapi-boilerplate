@@ -48,7 +48,7 @@ logger = cast("CustomLogger", logging.getLogger(__name__))
 # Pass in the whole app object to make it obvious we are configuring the logger object within the app object.
 def setup_logger(
     log_level: str | int = logging.INFO,
-    log_path: Path | None = None,
+    log_path: Path | str = "",
     in_loggers: list[logging.Logger] = [],
     *,
     include_root_logger: bool = True,
@@ -58,7 +58,8 @@ def setup_logger(
     Args:
         log_level: Logging level to set.
         log_path: Path to log to.
-        in_logger: Logger to configure, useful for testing.
+        in_loggers: Loggers to configure, includes root logger by default.
+        include_root_logger: Include the root logger in the configuration, false for testing.
     """
     if (
         not include_root_logger

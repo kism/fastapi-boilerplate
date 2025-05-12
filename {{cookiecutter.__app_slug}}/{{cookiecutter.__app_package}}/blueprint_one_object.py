@@ -10,7 +10,7 @@ class MyCoolObject:
         # Monitor Writing
         print({{cookiecutter.__app_config_var}})
 
-        self._my_message = {{cookiecutter.__app_config_var}}['app'].my_message
+        self._my_message = {{cookiecutter.__app_config_var}}.my_message
 
     def get_my_message_backwards(self) -> str:
         """Return the string backwards."""
