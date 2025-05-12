@@ -2,6 +2,8 @@
 
 from pprint import pformat
 
+from pathlib import Path
+
 from flask import Flask, render_template
 
 from . import blueprint_one, config, logger
@@ -20,9 +22,9 @@ def create_app(test_config: dict | None = None, instance_path: str | None = None
         if not instance_path:
             app.logger.critical("When testing supply both test_config and instance_path!")
             raise AttributeError(instance_path)
-        {{cookiecutter.__app_config_var}} = config.{{cookiecutter.__app_camel_case}}Config(config=test_config, instance_path=app.instance_path)
+        {{cookiecutter.__app_config_var}} = config.{{cookiecutter.__app_camel_case}}Config(config=test_config, instance_path=Path(app.instance_path))
     else:
-        {{cookiecutter.__app_config_var}} = config.{{cookiecutter.__app_camel_case}}Config(instance_path=app.instance_path)  # Loads app config from disk
+        {{cookiecutter.__app_config_var}} = config.{{cookiecutter.__app_camel_case}}Config(instance_path=Path(app.instance_path))  # Loads app config from disk
 
     app.logger.debug("Instance path is: %s", app.instance_path)
 

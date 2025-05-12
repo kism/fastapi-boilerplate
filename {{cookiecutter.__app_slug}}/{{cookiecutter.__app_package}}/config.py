@@ -44,15 +44,15 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
         json_encoders={Path: str},
     )
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, instance_path: Path) -> None:
         """Initialize settings and load from a TOML file if provided.
 
         Args:
             config_path (str): Path to the TOML configuration file.
         """
-        config_path = kwargs.pop("config_path", None)
+        config_path = instance_path / "config.toml"
         # Initialize with default values first
-        super().__init__(**kwargs)
+        super().__init__()
 
         # If a config_path is provided, load and override settings from that file
         if config_path:
