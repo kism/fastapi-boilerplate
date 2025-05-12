@@ -3,6 +3,8 @@
 import json
 from pathlib import Path
 
+from typing import Optional
+
 import tomlkit
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -31,7 +33,7 @@ class LoggingConfDef(BaseModel):
     """Logging configuration definition."""
 
     level: str = "INFO"
-    path: Path | None = None
+    path: Path | str = ""
 
 class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
     """Settings loaded from a TOML file."""
@@ -81,19 +83,19 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
                 # No config file found, keep using default values
                 return
 
-            with open(self.config_path, "rb") as f:
+            with self.config_path.open("r") as f:
                 config_data = tomlkit.load(f)
 
-        # Update our settings from the loaded data
-        for key, value in config_data.items():
-            if key == "flask" and isinstance(value, dict):
-                self.target = FlaskConfDef(**value)
-            elif key == "app" and isinstance(value, dict):
-                self.systems = [AppConfDef(**value)]
-            elif key == "logging" and isinstance(value, dict):
-                self.logging = LoggingConfDef(**value)
-            elif hasattr(self, key):
-                setattr(self, key, value)
+            # Update our settings from the loaded data
+            for key, value in config_data.items():
+                if key == "flask" and isinstance(value, dict):
+                    self.target = FlaskConfDef(**value)
+                elif key == "app" and isinstance(value, dict):
+                    self.systems = [AppConfDef(**value)]
+                elif key == "logging" and isinstance(value, dict):
+                    self.logging = LoggingConfDef(**value)
+                elif hasattr(self, key):
+                    setattr(self, key, value)
 
     def write_config(self) -> None:
         """Write the current settings to a TOML file."""
