@@ -2,6 +2,7 @@
 
 import logging
 import typing
+from pathlib import Path
 from logging.handlers import RotatingFileHandler
 from typing import cast
 
@@ -34,7 +35,7 @@ logging.setLoggerClass(CustomLogger)
 
 # This is where we log to in this module, following the standard of every module.
 # I don't use the function so we can have this at the top
-logger = cast(CustomLogger, logging.getLogger(__name__))
+logger = cast("CustomLogger", logging.getLogger(__name__))
 
 # In flask the root logger doesn't have any handlers, its all in app.logger
 # root_logger : root,
@@ -46,48 +47,36 @@ logger = cast(CustomLogger, logging.getLogger(__name__))
 
 # Pass in the whole app object to make it obvious we are configuring the logger object within the app object.
 def setup_logger(
-    app: Flask, logging_conf: dict, in_logger: logging.Logger | None = None
+    log_level: str | int = logging.INFO,
+    log_path: Path | None = None,
+    in_logger: logging.Logger | None = None,
 ) -> None:
     """Setup the logger, set configuration per logging_conf.
 
     Args:
-        app: The Flask app, needed to get the app's logger object.
-        logging_conf: The logging configuration {"level": "", "path": ""}
+        log_level: Logging level to set.
+        log_path: Path to log to.
         in_logger: Logger to configure, useful for testing.
     """
-    if not in_logger:  # in_logger should only exist when testing with PyTest.
+    if not in_logger:  # in_logger, used for pytest or passing in another logger
         in_logger = logging.getLogger()  # Get the root logger
-
-    # The root logger has no handlers initially in flask, app.logger does though.
-    app.logger.handlers.clear()  # Remove the Flask default handlers
 
     # If the logger doesn't have a console handler (root logger doesn't by default)
     if not _has_console_handler(in_logger):
         _add_console_handler(in_logger)
 
-    _set_log_level(in_logger, logging_conf["level"])
+    _set_log_level(in_logger, log_level)
 
     # If we are logging to a file
-    if not _has_file_handler(in_logger) and logging_conf["path"] != "":
-        _add_file_handler(in_logger, logging_conf["path"])
+    if not _has_file_handler(in_logger) and log_path:
+        _add_file_handler(in_logger, log_path)
 
-    # Configure modules that are external and have their own loggers
-    logging.getLogger("waitress").setLevel(
-        logging.INFO
-    )  # Prod web server, info has useful info.
-    logging.getLogger("werkzeug").setLevel(
-        logging.DEBUG
-    )  # Only will be used in dev, debug logs incoming requests.
-    logging.getLogger("urllib3").setLevel(
-        logging.WARNING
-    )  # Bit noisy when set to info, used by requests module.
-
-    logger.info("Logger configuration set!")
+    logger.debug("Logger configuration set!")
 
 
 def get_logger(name: str) -> CustomLogger:
     """Get a logger with the name provided."""
-    return cast(CustomLogger, logging.getLogger(name))
+    return cast("CustomLogger", logging.getLogger(name))
 
 
 def _has_file_handler(in_logger: logging.Logger) -> bool:

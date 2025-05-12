@@ -13,7 +13,8 @@ def create_app(test_config: dict | None = None, instance_path: str | None = None
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True, instance_path=instance_path)  # Create Flask app object
 
-    logger.setup_logger(app, config.DEFAULT_CONFIG["logging"])  # Setup logger with defaults defined in config module
+    logger.setup_logger()  # Setup logger with defaults
+    logger.setup_logger(in_logger=app.logger)  # Setup flask logger with defaults
 
     if test_config:  # For Python testing we will often pass in a config
         if not instance_path:
