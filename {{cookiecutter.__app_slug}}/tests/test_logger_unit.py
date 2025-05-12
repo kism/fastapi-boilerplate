@@ -10,7 +10,7 @@ import {{cookiecutter.__app_package}}.logger
 
 
 @pytest.fixture
-def logger() -> Generator:
+def logger():
     """Logger to use in unit tests, including cleanup."""
     logger = logging.getLogger("TEST_LOGGER")
 
@@ -48,27 +48,27 @@ def test_config_logging_to_dir(logger, tmp_path):
 
 def test_handler_console_added(logger, app):
     """Test logging console handler."""
-    logging_conf = {"path": "", "level": "INFO"}  # Test only console handler
+    logging_conf = {'log_level': "INFO", "log_path": "", 'in_loggers': [logger]}
 
     # TEST: Only one handler (console), should exist when no logging path provided
-    {{cookiecutter.__app_package}}.logger.setup_logger(app, logging_conf, logger)
+    {{cookiecutter.__app_package}}.logger.setup_logger(**logging_conf)
     assert len(logger.handlers) == 1
 
     # TEST: If a console handler exists, another one shouldn't be created
-    {{cookiecutter.__app_package}}.logger.setup_logger(app, logging_conf, logger)
+    {{cookiecutter.__app_package}}.logger.setup_logger(**logging_conf)
     assert len(logger.handlers) == 1
 
 
 def test_handler_file_added(logger, tmp_path, app):
     """Test logging file handler."""
-    logging_conf = {"path": os.path.join(tmp_path, "test.log"), "level": "INFO"}  # Test file handler
+    logging_conf = {'log_level': "INFO", "log_path": tmp_path / "test.log", 'in_loggers': [logger]}
 
     # TEST: Two handlers when logging to file expected
-    {{cookiecutter.__app_package}}.logger.setup_logger(app, logging_conf, logger)
+    {{cookiecutter.__app_package}}.logger.setup_logger(**logging_conf)
     assert len(logger.handlers) == 2  # noqa: PLR2004 A console and a file handler are expected
 
     # TEST: Two handlers when logging to file expected, another one shouldn't be created
-    {{cookiecutter.__app_package}}.logger.setup_logger(app, logging_conf, logger)
+    {{cookiecutter.__app_package}}.logger.setup_logger(**logging_conf)
     assert len(logger.handlers) == 2  # noqa: PLR2004 A console and a file handler are expected
 
 
