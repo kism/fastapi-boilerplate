@@ -22,9 +22,10 @@ App features:
 
 Project features:
 
-- Only Three PyPi packages (and their dependencies) for prod
+- Only Four PyPi packages (and their dependencies) for prod
 - Close to all project/tool configs in pyproject.toml
 - Virtual environment and dependencies managed by uv
+- Configuration object using pydantic-settings
 
 Boilerplate features:
 
