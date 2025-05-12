@@ -7,7 +7,12 @@ authors = [
 ]
 readme = "README.md"
 requires-python = "~=3.12"
-dependencies = ["flask>=3.1, <4", "tomlkit>=0.13", "waitress>=3.0"]
+dependencies = [
+    "flask>=3.1, <4",
+    "tomlkit>=0.13",
+    "waitress>=3.0",
+    "pydantic-settings>=2.9",
+]
 
 [dependency-groups]
 type = ["mypy"]
