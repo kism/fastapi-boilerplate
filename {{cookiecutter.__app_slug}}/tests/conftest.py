@@ -5,7 +5,7 @@ Fixtures defined in a conftest.py can be used by any test in that package withou
 
 import os
 import shutil
-from collections.abc import Callable
+from pathlib import Path
 
 import pytest
 import tomlkit
@@ -13,6 +13,7 @@ from flask import Flask
 from flask.testing import FlaskClient, FlaskCliRunner
 
 from {{cookiecutter.__app_package}} import create_app
+from {{cookiecutter.__app_package}}.config import {{cookiecutter.__app_camel_case}}Config
 
 TEST_CONFIGS_LOCATION = os.path.join(os.getcwd(), "tests", "configs")
 
@@ -35,12 +36,15 @@ def client(app):
 
 
 @pytest.fixture
-def get_test_config():
+def get_test_config(tmp_path, place_test_config, config_name: str = "testing_true_valid.toml"):
     """Function returns a function, which is how it needs to be."""
-    from . import testing_true_valid
-    return testing_true_valid
 
+    def _get_test_config(config_name: str = "testing_true_valid.toml"):
+        place_test_config(config_name, tmp_path)
+        config = {{cookiecutter.__app_camel_case}}Config(instance_path=Path(tmp_path))
+        return config
 
+    return _get_test_config
 
 @pytest.fixture
 def place_test_config():

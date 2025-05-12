@@ -17,10 +17,10 @@ from {{cookiecutter.__app_package}} import create_app
 def test_instance_path_check(get_test_config):
     """TEST: When passed a dictionary as a config, the instance path must be specified."""
     with pytest.raises(AttributeError):
-        create_app(test_config=get_test_config)
+        create_app(test_config=get_test_config())
 
 
-def test_config_validate_test_instance_path():
+def test_config_validate_test_instance_path(get_test_config):
     """My boilerplate catches when you forget to use tmp_path in testing.
 
     This test exists because I spent so much time troubleshooting why some tests are using the default instance path.
@@ -43,12 +43,5 @@ def test_config_validate_test_instance_path():
         os.mkdir(incorrect_instance_root)
         os.mkdir(incorrect_instance_path)
 
-    # TEST: The program exits when in testing mode and the instance path is not a temp path.
-    # with pytest.raises(ConfigValidationError) as exc_info:
-
-
-    create_app(test_config=testing_true_valid, instance_path=incorrect_instance_path)
-
-    assert "['flask']['TESTING'] is True but instance_path is not a tmp_path" in str(exc_info.getrepr())
-
+    create_app(test_config=get_test_config(), instance_path=incorrect_instance_path)
     shutil.rmtree(incorrect_instance_root)

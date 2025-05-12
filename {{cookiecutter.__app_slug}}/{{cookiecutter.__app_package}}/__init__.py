@@ -37,7 +37,7 @@ def create_app(
         )
 
     # Flask config, at the root of the config object.
-    app.config.from_mapping(app.{{cookiecutter.__app_config_var}}.flask.dict())
+    app.config.from_mapping(app.{{cookiecutter.__app_config_var}}.flask.model_dump())
 
     # Do some debug logging of config
     app_config_str = ">>>\nFlask config:"
