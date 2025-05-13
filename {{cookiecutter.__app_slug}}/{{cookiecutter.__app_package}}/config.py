@@ -2,10 +2,10 @@
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Self
 
 import tomlkit
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from .logger import get_logger
@@ -27,16 +27,13 @@ class AppConfDef(BaseModel):
 
     my_message: str = "Hello, World!"
 
-    def __init__(self, **kwargs: Any) -> None:  # noqa: ANN401 # Don't know how to avoid this
-        """Initialize the configuration and validate it."""
-        super().__init__(**kwargs)
-        self.custom_validate()
-
-    def custom_validate(self) -> None:
+    @model_validator(mode="after")
+    def my_message_not_empty(self) -> Self:
         """Validate the configuration."""
         if self.my_message == "":
             msg = "AppConfDef: my_message cannot be empty"
             raise ValueError(msg)
+        return self
 
 
 class LoggingConfDef(BaseModel):
@@ -76,7 +73,6 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
 
         self.config_path = Path(instance_path / "config.toml")
         self._load_from_toml()
-        self.custom_validate()
         self.write_config()
 
     def _load_from_toml(self) -> None:
@@ -95,10 +91,6 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
                     self.logging = LoggingConfDef(**value)
                 elif hasattr(self, key):
                     setattr(self, key, value)
-
-    def custom_validate(self) -> None:
-        """Validate the loaded settings."""
-        self.app.custom_validate()
 
     def write_config(self) -> None:
         """Write the current settings to a TOML file."""
