@@ -16,8 +16,9 @@ def create_app(
 ) -> Flask{{cookiecutter.__app_camel_case}}:
     """Create and configure an instance of the Flask application."""
     app = Flask{{cookiecutter.__app_camel_case}}(__name__, instance_relative_config=True, instance_path=instance_path)
+    app.logger.handlers.clear()
 
-    logger.setup_logger(in_loggers=[app.logger])  # Setup flask logger with defaults
+    logger.setup_logger(in_loggers=[])  # Setup flask logger with defaults
 
     if test_config:  # For Python testing we will often pass in a config
         if not instance_path:
@@ -30,7 +31,7 @@ def create_app(
     logger.setup_logger(  # Setup logger with config
         log_level=app.{{cookiecutter.__app_config_var}}.logging.level,
         log_path=app.{{cookiecutter.__app_config_var}}.logging.path,
-        in_loggers=[app.logger],
+        in_loggers=[],
     )
 
     # Flask config, at the root of the config object.
