@@ -77,10 +77,6 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
 
     def _load_from_toml(self) -> None:
         """Load settings from the TOML file specified in config_path."""
-        if self.config_path.is_dir():
-            msg = f"Config path {self.config_path} is a directory, not a file."
-            raise ValueError(msg)
-
         if self.config_path.is_file():
             with self.config_path.open("r") as f:
                 config_data = tomlkit.load(f)
