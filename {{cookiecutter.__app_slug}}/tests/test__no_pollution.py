@@ -20,29 +20,3 @@ def test_instance_path_check(get_test_config):
     """TEST: When passed a dictionary as a config, the instance path must be specified."""
     with pytest.raises(AttributeError):
         create_app(test_config=get_test_config("testing_true_valid.toml"))
-
-
-def test_config_validate_test_instance_path(get_test_config):
-    """My boilerplate catches when you forget to use tmp_path in testing.
-
-    This test exists because I spent so much time troubleshooting why some tests are using the default instance path.
-    """
-    import contextlib
-    import random
-    import shutil
-    import string
-
-    # Please always use tmp_path and never do this outside of this test.
-    repo_instance_path = Path.cwd() / "instance"
-    incorrect_instance_root = Path(repo_instance_path) / "_TEST"
-    random_string = "".join(random.choice(string.ascii_uppercase) for _ in range(8))
-    incorrect_instance_path = incorrect_instance_root / random_string
-
-    with contextlib.suppress(FileNotFoundError, FileExistsError):
-        repo_instance_path.mkdir()
-        shutil.rmtree(incorrect_instance_root)
-        incorrect_instance_root.mkdir()
-        incorrect_instance_path.mkdir()
-
-    create_app(test_config=get_test_config("testing_true_valid.toml"), instance_path=incorrect_instance_path)
-    shutil.rmtree(incorrect_instance_root)

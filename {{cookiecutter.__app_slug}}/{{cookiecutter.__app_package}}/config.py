@@ -1,12 +1,13 @@
 """Config loading, setup, validating, writing."""
 
+import datetime
 import json
 from pathlib import Path
 from typing import Self
 
 import tomlkit
 from pydantic import BaseModel, model_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
 
 from .logger import get_logger
 
@@ -52,55 +53,45 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
     logging: LoggingConfDef = LoggingConfDef()
     top_level_field_for_a_laugh: str = "This is a top level field"
 
-    # Custom path for the config file
-    config_path: Path = Path()
-
-    # Configure settings class
-    model_config = SettingsConfigDict(
-        env_prefix="APP_",  # environment variables with APP_ prefix will override settings
-        env_nested_delimiter="__",  # APP_NESTED__NESTED_FIELD=value
-        json_encoders={Path: str},
-    )
-
-    def __init__(self, instance_path: Path) -> None:
-        """Initialize settings and load from a TOML file if provided.
-
-        Args:
-            instance_path (str): Path to load config.toml
-        """
-        # Initialize with default values first
-        super().__init__()
-
-        self.config_path = Path(instance_path / "config.toml")
-        self._load_from_toml()
-        self.write_config()
-
-    def _load_from_toml(self) -> None:
-        """Load settings from the TOML file specified in config_path."""
-        if self.config_path.is_file():
-            with self.config_path.open("r") as f:
-                config_data = tomlkit.load(f)
-
-            # Update our settings from the loaded data
-            for key, value in config_data.items():
-                if key == "flask" and isinstance(value, dict):
-                    self.flask = FlaskConfDef(**value)
-                elif key == "app" and isinstance(value, dict):
-                    self.app = AppConfDef(**value)
-                elif key == "logging" and isinstance(value, dict):
-                    self.logging = LoggingConfDef(**value)
-                elif hasattr(self, key):
-                    setattr(self, key, value)
-
-    def write_config(self) -> None:
+    def write_config(self, config_location: Path) -> None:
         """Write the current settings to a TOML file."""
-        logger.info("Writing config to %s", self.config_path)
+        from . import PROGRAM_NAME, URL, __version__
+        config_location.parent.mkdir(parents=True, exist_ok=True)
+
         config_data = json.loads(self.model_dump_json())  # This is how we make the object safe for tomlkit
-        config_data.pop("config_path", None)  # Remove config_path from the data to be written
+        if not config_location.exists():
+            logger.warning("Config file does not exist, creating it at %s", config_location)
+            config_location.touch()
+            existing_data = config_data
+        else:
+            with config_location.open("r") as f:
+                existing_data = tomlkit.load(f)
 
-        # Write to the TOML file
-        if not self.config_path.parent.exists():
-            self.config_path.parent.mkdir(parents=True, exist_ok=True)
+        logger.info("Writing config to %s", config_location)
 
-        with self.config_path.open("w") as f:
-            tomlkit.dump(config_data, f)
+        new_file_content_str = f"# Configuration file for {PROGRAM_NAME} v{__version__} {URL}\n"
+        new_file_content_str += tomlkit.dumps(config_data)
+
+        if existing_data != config_data:  # The new object will be valid, so we back up the old one
+            local_tz = datetime.datetime.now().astimezone().tzinfo
+            time_str = datetime.datetime.now(tz=local_tz).strftime("%Y-%m-%d_%H%M%S")
+            backup_file = config_location.parent / f"{config_location.stem}_{time_str}{config_location.suffix}.bak"
+            logger.warning("Validation has changed the config file, backing up the old one to %s", backup_file)
+            with backup_file.open("w") as f:
+                f.write(tomlkit.dumps(existing_data))
+
+        with config_location.open("w") as f:
+            f.write(new_file_content_str)
+
+
+def load_config(config_path: Path) -> {{cookiecutter.__app_camel_case}}Config:
+    """Load the configuration file."""
+    import tomlkit
+
+    if not config_path.exists():
+        return {{cookiecutter.__app_camel_case}}Config()
+
+    with config_path.open("r") as f:
+        config = tomlkit.load(f)
+
+    return {{cookiecutter.__app_camel_case}}Config(**config)

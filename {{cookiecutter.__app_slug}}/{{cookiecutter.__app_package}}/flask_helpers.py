@@ -5,7 +5,7 @@ from typing import Any, cast
 
 from flask import Flask, current_app
 
-from .config import {{cookiecutter.__app_camel_case}}Config
+from .config import load_config
 
 
 class Flask{{cookiecutter.__app_camel_case}}(Flask):
@@ -14,7 +14,8 @@ class Flask{{cookiecutter.__app_camel_case}}(Flask):
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: ANN401
         """Extend flask to add out config object to the app object."""
         super().__init__(*args, **kwargs)
-        self.{{cookiecutter.__app_config_var}} = {{cookiecutter.__app_camel_case}}Config(instance_path=Path(self.instance_path))
+        self.{{cookiecutter.__app_config_var}} = load_config(Path(self.instance_path) / "config.toml")
+        self.{{cookiecutter.__app_config_var}}.write_config(Path(self.instance_path) / "config.toml")
 
 
 def get_current_app() -> Flask{{cookiecutter.__app_camel_case}}:

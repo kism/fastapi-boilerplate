@@ -8,6 +8,8 @@ from . import blueprint_one, config, logger
 from .flask_helpers import Flask{{cookiecutter.__app_camel_case}}
 
 __version__ = "0.0.1"  # This is the version of the app, used in pyproject.toml, enforced in a test.
+PROGRAM_NAME = "{{cookiecutter.__app_nice_name}}"  # This is the name of the app, used in the config file.
+URL = ""
 
 
 def create_app(
@@ -62,6 +64,6 @@ def create_app(
         return render_template("home.html.j2", __app_nice_name=__name__)  # Return a webpage
 
     app.logger.info("Starting Web Server")
-    app.logger.info("{{cookiecutter.__app_nice_name}} version: %s", __version__)
+    app.logger.info("%s version: %s", PROGRAM_NAME, __version__)
 
     return app
