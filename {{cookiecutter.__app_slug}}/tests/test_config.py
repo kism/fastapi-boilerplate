@@ -1,5 +1,6 @@
-import pytest
 from pathlib import Path
+
+import pytest
 
 from {{cookiecutter.__app_package}}.config import load_config
 

@@ -9,8 +9,6 @@ Tests should always use the tmp_path fixture as an instance_path as it means the
 And thus in the boilerplate I have some checks to ensure that your tests aren't possibly getting polluted.
 """
 
-from pathlib import Path
-
 import pytest
 
 from {{cookiecutter.__app_package}} import create_app

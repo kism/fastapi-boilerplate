@@ -56,6 +56,7 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
     def write_config(self, config_location: Path) -> None:
         """Write the current settings to a TOML file."""
         from . import PROGRAM_NAME, URL, __version__
+
         config_location.parent.mkdir(parents=True, exist_ok=True)
 
         config_data = json.loads(self.model_dump_json())  # This is how we make the object safe for tomlkit
