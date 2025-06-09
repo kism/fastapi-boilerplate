@@ -1,5 +1,7 @@
 """Blueprint one's object..."""
 
+from http import HTTPStatus
+
 from flask import Blueprint, Response, jsonify
 
 from .blueprint_one_object import MyCoolObject
@@ -34,10 +36,9 @@ def start_blueprint_one() -> None:
 
 # KISM-BOILERPLATE: This is the demo api endpoint, enough to show a basic javascript interaction.
 @bp.route("/hello/", methods=["GET"])
-def get_hello() -> tuple[Response, int]:
+def get_hello() -> Response:
     """Hello GET Method."""
     message = {"msg": current_app.{{cookiecutter.__app_config_var}}.app.my_message}  # We don't use the object here, but we could.
-    status = 200
 
     logger.debug(
         "GET request to /hello/, returning: %s as json, due to config: %s",
@@ -45,21 +46,25 @@ def get_hello() -> tuple[Response, int]:
         current_app.{{cookiecutter.__app_config_var}}.app,
     )
 
-    return jsonify(message), status  # Return json, not a webpage.
+    response = jsonify(message)
+    response.status_code =  HTTPStatus.OK
+    return response # Return json, not a webpage.
 
 
 # KISM-BOILERPLATE: This is the demo api endpoint, enough to demonstrate object loading.
 @bp.route("/hello_backwards/", methods=["GET"])
-def get_hello_backwards() -> tuple[Response, int]:
+def get_hello_backwards() -> Response:
     """Hello GET Method."""
     assert my_cool_object is not None  # noqa: S101 Appease mypy
 
     message = {"msg": my_cool_object.get_my_message_backwards()}
-    status = 200
 
     logger.debug(
         "GET request to /hello_backwards/, returning: %s",
         message,
     )
 
-    return jsonify(message), status  # Return json, not a webpage.
+    response = jsonify(message)
+    response.status_code =  HTTPStatus.OK
+
+    return response  # Return json, not a webpage.

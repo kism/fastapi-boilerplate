@@ -1,8 +1,9 @@
 """Flask webapp {{cookiecutter.__app_package}}."""
 
+from http import HTTPStatus
 from pprint import pformat
 
-from flask import render_template
+from flask import Response, render_template
 
 from . import blueprint_one, config, logger
 from .flask_helpers import Flask{{cookiecutter.__app_camel_case}}
@@ -59,9 +60,11 @@ def create_app(
 
     # Flask homepage, generally don't have this as a blueprint.
     @app.route("/")
-    def home() -> str:
+    def home() -> Response:
         """Flask home."""
-        return render_template("home.html.j2", __app_nice_name=__name__)  # Return a webpage
+        response = Response(render_template("home.html.j2", __app_nice_name=__name__)) # Return a webpage
+        response.status_code = HTTPStatus.OK
+        return response
 
     app.logger.info("Starting Web Server")
     app.logger.info("%s version: %s", PROGRAM_NAME, __version__)
