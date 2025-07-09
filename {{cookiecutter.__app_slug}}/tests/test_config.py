@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from {{cookiecutter.__app_package}}.config import load_config
+from {{cookiecutter.__app_package}}.config import {{cookiecutter.__app_camel_case}}Config
 
 
 def test_invalid_message(get_test_config):
@@ -14,5 +14,5 @@ def test_invalid_message(get_test_config):
 def test_load_missing_config(tmp_path):
     """Test loading a missing config file."""
     missing_config = Path(tmp_path) / "missing_config.toml"
-    config = load_config(missing_config)
+    config = {{cookiecutter.__app_camel_case}}Config.load_config(missing_config)
     config.write_config(missing_config)

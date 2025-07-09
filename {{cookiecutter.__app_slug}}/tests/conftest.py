@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 
 from {{cookiecutter.__app_package}} import create_app
-from {{cookiecutter.__app_package}}.config import load_config
+from {{cookiecutter.__app_package}}.config import {{cookiecutter.__app_camel_case}}Config
 
 TEST_CONFIGS_LOCATION = Path.cwd() / "tests" / "configs"
 
@@ -37,7 +37,7 @@ def get_test_config(tmp_path, place_test_config):
 
     def _get_test_config(config_name):
         place_test_config(config_name, tmp_path)
-        return load_config(Path(tmp_path) / "config.toml")
+        return {{cookiecutter.__app_camel_case}}Config.load_config(Path(tmp_path) / "config.toml")
 
     return _get_test_config
 

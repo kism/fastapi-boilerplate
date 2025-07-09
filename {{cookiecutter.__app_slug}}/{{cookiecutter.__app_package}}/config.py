@@ -6,8 +6,8 @@ from pathlib import Path
 from typing import Self
 
 import tomlkit
-from pydantic import BaseModel, model_validator
-from pydantic_settings import BaseSettings
+from pydantic import BaseModel, ConfigDict, model_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from .logger import get_logger
 
@@ -19,12 +19,16 @@ logger = get_logger(__name__)
 class FlaskConfDef(BaseModel):
     """Flask configuration definition."""
 
+    model_config = ConfigDict(extra="allow") # Ok for config, will be dropped when saved
+
     DEBUG: bool = False
     TESTING: bool = False
 
 
 class AppConfDef(BaseModel):
     """Application configuration definition."""
+
+    model_config = ConfigDict(extra="allow") # Ok for config, will be dropped when saved
 
     my_message: str = "Hello, World!"
 
@@ -40,12 +44,16 @@ class AppConfDef(BaseModel):
 class LoggingConfDef(BaseModel):
     """Logging configuration definition."""
 
+    model_config = ConfigDict(extra="allow") # Ok for config, will be dropped when saved
+
     level: str = "INFO"
     path: Path | str = ""
 
 
 class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
     """Settings loaded from a TOML file."""
+
+    model_config = SettingsConfigDict(extra="allow") # Ok for config, will be dropped when saved
 
     # Default values for our settings
     app: AppConfDef = AppConfDef()
@@ -84,15 +92,13 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
         with config_location.open("w") as f:
             f.write(new_file_content_str)
 
+    @classmethod
+    def load_config(cls, config_path: Path) -> Self:
+        """Load the configuration file."""
+        if not config_path.exists():
+            return cls()
 
-def load_config(config_path: Path) -> {{cookiecutter.__app_camel_case}}Config:
-    """Load the configuration file."""
-    import tomlkit
+        with config_path.open("r") as f:
+            config = tomlkit.load(f)
 
-    if not config_path.exists():
-        return {{cookiecutter.__app_camel_case}}Config()
-
-    with config_path.open("r") as f:
-        config = tomlkit.load(f)
-
-    return {{cookiecutter.__app_camel_case}}Config(**config)
+        return cls(**config)
