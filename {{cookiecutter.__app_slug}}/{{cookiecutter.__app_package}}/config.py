@@ -19,7 +19,7 @@ logger = get_logger(__name__)
 class FlaskConfDef(BaseModel):
     """Flask configuration definition."""
 
-    model_config = ConfigDict(extra="allow") # Ok for config, will be dropped when saved
+    model_config = ConfigDict(extra="ignore")  # Ignore extra fields in the config
 
     DEBUG: bool = False
     TESTING: bool = False
@@ -28,7 +28,7 @@ class FlaskConfDef(BaseModel):
 class AppConfDef(BaseModel):
     """Application configuration definition."""
 
-    model_config = ConfigDict(extra="allow") # Ok for config, will be dropped when saved
+    model_config = ConfigDict(extra="ignore")  # Ignore extra fields in the config
 
     my_message: str = "Hello, World!"
 
@@ -44,8 +44,7 @@ class AppConfDef(BaseModel):
 class LoggingConfDef(BaseModel):
     """Logging configuration definition."""
 
-    model_config = ConfigDict(extra="allow") # Ok for config, will be dropped when saved
-
+    model_config = ConfigDict(extra="ignore")  # Ignore extra fields in the config
     level: str = "INFO"
     path: Path | str = ""
 
@@ -53,7 +52,7 @@ class LoggingConfDef(BaseModel):
 class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
     """Settings loaded from a TOML file."""
 
-    model_config = SettingsConfigDict(extra="allow") # Ok for config, will be dropped when saved
+    model_config = SettingsConfigDict(extra="ignore")  # Ignore extra fields in the config
 
     # Default values for our settings
     app: AppConfDef = AppConfDef()
