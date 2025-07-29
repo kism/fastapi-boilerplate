@@ -12,9 +12,9 @@ from tests.constants import TEST_CONFIGS_LOCATION
 def get_test_config(tmp_path: Path, place_test_config: Callable[[str, Path], None]) -> Callable[[str], {{cookiecutter.__app_camel_case}}Config]:
     """Function returns a function, which is how it needs to be."""
 
-    def _get_test_config(config_name) -> {{cookiecutter.__app_camel_case}}Config:
+    def _get_test_config(config_name: str) -> {{cookiecutter.__app_camel_case}}Config:
         place_test_config(config_name, tmp_path)
-        return {{cookiecutter.__app_camel_case}}Config.load_config(Path(tmp_path) / "config.toml")
+        return {{cookiecutter.__app_camel_case}}Config.load_config(tmp_path / "config.toml")
 
     return _get_test_config
 
@@ -26,10 +26,10 @@ def place_test_config() -> Callable[[str, Path], None]:
     Returns: a function to place a config in the tmp_path.
     """
 
-    def _place_test_config(config_name: str, path: str) -> None:
+    def _place_test_config(config_name: str, path: Path) -> None:
         """Place config in tmp_path by name."""
         filepath = TEST_CONFIGS_LOCATION / config_name
-        config_path = Path(path) / "config.toml"
+        config_path = path / "config.toml"
         shutil.copyfile(filepath, config_path)
 
     return _place_test_config

@@ -10,6 +10,7 @@ And thus in the boilerplate I have some checks to ensure that your tests aren't 
 """
 
 from collections.abc import Callable
+
 import pytest
 
 from {{cookiecutter.__app_package}} import create_app

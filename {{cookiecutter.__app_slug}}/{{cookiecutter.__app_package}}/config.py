@@ -10,6 +10,7 @@ from pydantic import BaseModel, ConfigDict, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from .logger import get_logger
+from .version import PROGRAM_NAME, URL, __version__
 
 # Logging should be all done at INFO level or higher as the log level hasn't been set yet
 # Modules should all setup logging like this so the log messages include the modules name.
@@ -62,8 +63,6 @@ class {{cookiecutter.__app_camel_case}}Config(BaseSettings):
 
     def write_config(self, config_location: Path) -> None:
         """Write the current settings to a TOML file."""
-        from . import PROGRAM_NAME, URL, __version__
-
         config_location.parent.mkdir(parents=True, exist_ok=True)
 
         config_data = json.loads(self.model_dump_json())  # This is how we make the object safe for tomlkit

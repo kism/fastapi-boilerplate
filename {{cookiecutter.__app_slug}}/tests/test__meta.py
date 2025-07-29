@@ -10,7 +10,7 @@ def test_version_pyproject() -> None:
     pyproject_path = Path("pyproject.toml")
     with pyproject_path.open("rb") as f:
         pyproject_toml = tomlkit.load(f)
-    assert pyproject_toml["project"]["version"] == {{cookiecutter.__app_package}}.__version__
+    assert pyproject_toml.get("project", {}).get("version") == {{cookiecutter.__app_package}}.version.__version__
 
 
 def test_version_lock() -> None:
@@ -20,9 +20,9 @@ def test_version_lock() -> None:
         uv_lock = tomlkit.load(f)
 
     found_version = False
-    for package in uv_lock["package"]:
+    for package in uv_lock.get("package", []):
         if package["name"] == "{{cookiecutter.__app_package}}":
-            assert package["version"] == {{cookiecutter.__app_package}}.__version__
+            assert package["version"] == {{cookiecutter.__app_package}}.version.__version__
             found_version = True
             break
 

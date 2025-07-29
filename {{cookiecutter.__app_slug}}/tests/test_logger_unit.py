@@ -8,8 +8,8 @@ import pytest
 from pydantic import BaseModel, ConfigDict
 from pytest_mock import MockerFixture
 
-from {{cookiecutter.__app_package}}.logger import CustomLogger, _add_file_handler, setup_logger, _set_log_level
 from {{cookiecutter.__app_package}}.flask_helpers import Flask{{cookiecutter.__app_camel_case}}
+from {{cookiecutter.__app_package}}.logger import CustomLogger, _add_file_handler, _set_log_level, setup_logger
 
 
 class BaseLoggingConfig(BaseModel):

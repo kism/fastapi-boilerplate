@@ -1,12 +1,14 @@
 """Tests the blueprint's HTTP endpoint."""
 
 import logging
-from pathlib import Path
+from collections.abc import Callable
 from http import HTTPStatus
+from pathlib import Path
 
 import pytest
-
 from flask.testing import FlaskClient
+
+from mycoolapp import create_app
 
 from {{cookiecutter.__app_package}} import create_app
 from {{cookiecutter.__app_package}}.config import {{cookiecutter.__app_camel_case}}Config
@@ -21,7 +23,7 @@ def test_hello(client: FlaskClient) -> None:
 
 def test_hello_with_config(tmp_path: Path, get_test_config: Callable[[str], {{cookiecutter.__app_camel_case}}Config], caplog: pytest.LogCaptureFixture) -> None:
     """TEST: the hello API endpoint with non-default config."""
-    app = create_app(get_test_config("bp_one_different_my_message.toml"), instance_path=tmp_path)
+    app = create_app(get_test_config("bp_one_different_my_message.toml"), instance_path=str(tmp_path))
     client = app.test_client()
     response = client.get("/hello/")
     assert response.status_code == HTTPStatus.OK
