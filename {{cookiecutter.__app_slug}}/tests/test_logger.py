@@ -1,13 +1,17 @@
 """Test the logger of the app."""
 
+from collections.abc import Callable
 import logging
+from pathlib import Path
 
+import pytest
 from flask import Flask
 
 from {{cookiecutter.__app_package}} import create_app
+from {{cookiecutter.__app_package}}.config import {{cookiecutter.__app_camel_case}}Config
 
 
-def test_config_invalid_log_level(tmp_path, get_test_config, caplog):
+def test_config_invalid_log_level(tmp_path: Path, get_test_config: Callable[[str], {{cookiecutter.__app_camel_case}}Config], caplog: pytest.LogCaptureFixture) -> None:
     """Test if logging to file works."""
     caplog.set_level(logging.WARNING)
     app = create_app(get_test_config("logging_invalid_log_level.toml"), instance_path=tmp_path)

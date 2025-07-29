@@ -42,7 +42,7 @@ extend-unsafe-fixes = [
 select = ["ALL"] # KG Include absolutely all of Ruff's rules.
 ignore = [
     # Modules
-    "DJ",  # KG Django not required
+    "DJ", # KG Django not required
 
     # Specific rules
     "TD002",  # KG Verbose TODO, only I work on this project
@@ -96,7 +96,8 @@ testpaths = ["tests"]
 show_contexts = true
 
 [tool.mypy]
-files = ["{{cookiecutter.__app_package}}"]
+plugins = ["pydantic.mypy"]
+files = ["{{cookiecutter.__app_package}}", "tests"]
 namespace_packages = true
 explicit_package_bases = true
 show_error_codes = true
@@ -106,5 +107,9 @@ enable_error_code = [
     "redundant-expr",
     "truthy-bool",
     "type-arg",
+    "unused-awaitable",
+    "possibly-undefined",
+    "redundant-self",
 ]
-exclude = ["tests/*"]
+warn_unreachable = true
+warn_redundant_casts = true

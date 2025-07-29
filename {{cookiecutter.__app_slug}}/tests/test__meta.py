@@ -5,7 +5,7 @@ import tomlkit
 import {{cookiecutter.__app_package}}
 
 
-def test_version_pyproject():
+def test_version_pyproject() -> None:
     """Verify version in pyproject.toml matches package version."""
     pyproject_path = Path("pyproject.toml")
     with pyproject_path.open("rb") as f:
@@ -13,7 +13,7 @@ def test_version_pyproject():
     assert pyproject_toml["project"]["version"] == {{cookiecutter.__app_package}}.__version__
 
 
-def test_version_lock():
+def test_version_lock() -> None:
     """Verify version in uv.lock matches package version."""
     lock_path = Path("uv.lock")
     with lock_path.open() as f:
