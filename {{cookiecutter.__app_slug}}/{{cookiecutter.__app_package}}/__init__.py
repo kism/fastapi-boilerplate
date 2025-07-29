@@ -9,6 +9,7 @@ from . import blueprint_one, config, logger
 from .flask_helpers import Flask{{cookiecutter.__app_camel_case}}
 from .version import PROGRAM_NAME, __version__
 
+
 def create_app(
     test_config: config.{{cookiecutter.__app_camel_case}}Config | None = None,
     instance_path: str | None = None,

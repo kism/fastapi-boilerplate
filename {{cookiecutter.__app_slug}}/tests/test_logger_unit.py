@@ -81,7 +81,7 @@ def test_handler_file_added(logger: logging.Logger, tmp_path: Path, app: Flask{{
     """Test logging file handler."""
     logging_conf = BaseLoggingConfig(
         log_level="INFO",
-        log_path="",
+        log_path=tmp_path / "test.log",
         in_loggers=[logger],
         include_root_logger=False,
     )
