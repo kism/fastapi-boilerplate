@@ -25,6 +25,7 @@ class BaseLoggingConfig(BaseModel):
     in_loggers: list[logging.Logger | CustomLogger]
     include_root_logger: bool = False
 
+
 @pytest.fixture
 def logger() -> Generator[logging.Logger]:
     """Logger to use in unit tests, including cleanup."""
@@ -54,7 +55,6 @@ def test_logging_permissions_error(logger: CustomLogger, tmp_path: Path, mocker:
 
 def test_config_logging_to_dir(logger: logging.Logger, tmp_path: Path) -> None:
     """TEST: Correct exception is caught when you try log to a folder."""
-
 
     with pytest.raises(IsADirectoryError):
         _add_file_handler(logger, tmp_path)

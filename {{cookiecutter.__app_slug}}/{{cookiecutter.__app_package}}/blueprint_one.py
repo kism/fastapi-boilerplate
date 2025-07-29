@@ -47,8 +47,8 @@ def get_hello() -> Response:
     )
 
     response = jsonify(message)
-    response.status_code =  HTTPStatus.OK
-    return response # Return json, not a webpage.
+    response.status_code = HTTPStatus.OK
+    return response  # Return json, not a webpage.
 
 
 # KISM-BOILERPLATE: This is the demo api endpoint, enough to demonstrate object loading.
@@ -65,6 +65,6 @@ def get_hello_backwards() -> Response:
     )
 
     response = jsonify(message)
-    response.status_code =  HTTPStatus.OK
+    response.status_code = HTTPStatus.OK
 
     return response  # Return json, not a webpage.

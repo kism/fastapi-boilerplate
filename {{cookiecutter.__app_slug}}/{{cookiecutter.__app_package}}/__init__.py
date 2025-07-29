@@ -59,7 +59,7 @@ def create_app(
     @app.route("/")
     def home() -> Response:
         """Flask home."""
-        response = Response(render_template("home.html.j2", __app_nice_name=__name__)) # Return a webpage
+        response = Response(render_template("home.html.j2", __app_nice_name=__name__))  # Return a webpage
         response.status_code = HTTPStatus.OK
         return response
 

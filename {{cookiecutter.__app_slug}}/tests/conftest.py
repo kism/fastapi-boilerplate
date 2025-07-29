@@ -7,5 +7,3 @@ pytest_plugins = [  # Magic list of fixtures to load
     "tests.fixtures.config",
     "tests.fixtures.app",
 ]
-
-
