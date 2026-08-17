@@ -33,7 +33,7 @@ Repository = "https://github.com/kism/fastapi-boilerplate"
 my-cool-app = "my_cool_app.__main__:main"
 
 [build-system]
-requires = ["uv_build>=0.12.1,<0.13.0"]
+requires = ["uv_build>=0.12.4,<0.13.0"]
 build-backend = "uv_build"
 
 [tool.ruff]
