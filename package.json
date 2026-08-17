@@ -8,7 +8,7 @@
   "scripts": {
     "codegen": "uv run my-cool-app --dump-openapi > frontend/openapi.json && openapi-ts",
     "check": "tsc --noEmit",
-    "build": "bun build frontend/my_cool_app.ts --outfile src/my_cool_app/static/my_cool_app.js",
+    "build": "bun build frontend/pages/*.ts --outdir src/my_cool_app/static/ --minify",
     "all": "bun run codegen && bun run check && bun run build"
   },
   "type": "module"

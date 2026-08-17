@@ -14,11 +14,15 @@ Run `ty check`
 
 Pages are rendered server side with Jinja templates, only the scripts are TypeScript, bundled with bun.
 
+One entrypoint per template: `frontend/pages/home.ts` builds to `static/home.js`, which `home.html.j2` loads with
+`<script type="module">`. Shared code goes in `frontend/` and is bundled into whichever pages import it, so a new
+page never grows the bundles of the others.
+
 ```bash
 bun install
 bun run codegen  # Dump the app's OpenAPI schema to frontend/openapi.json, generate frontend/generated/ from it
 bun run check    # tsc --noEmit, bun build strips types without checking them
-bun run build    # Bundle frontend/*.ts to src/my_cool_app/static/
+bun run build    # Bundle each frontend/pages/*.ts to src/my_cool_app/static/, minified
 bun run all      # All three, in order
 ```
 
@@ -26,7 +30,7 @@ Run `bun run all` after any api change, the typed client in `frontend/generated/
 in openapi-ts.config.ts) is what makes a renamed endpoint or a changed response model a compile error instead of an
 `undefined` at runtime.
 
-All generated files (`frontend/openapi.json`, `frontend/generated/` and the static bundle) are committed, since
+All generated files (`frontend/openapi.json`, `frontend/generated/` and the static bundles) are committed, since
 the package ships `src/my_cool_app/static/` and prod installs won't have bun. CI regenerates them and fails on a
 diff, so don't hand edit them.
 

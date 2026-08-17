@@ -1,7 +1,7 @@
 // KISM-BOILERPLATE: Demo frontend, polls the app's /hello/ endpoint with a client generated from its OpenAPI schema.
 // The sdk in ./generated is generated from the running app's schema, regenerate with `bun run codegen` after any api
 // change. A renamed endpoint or a changed response model then fails `bun run check`.
-import { getHello } from "./generated";
+import { getHello } from "../generated";
 
 const field = document.getElementById("MY_COOL_FIELD")!;
 const result = document.getElementById("MY_COOL_RESULT")!;
