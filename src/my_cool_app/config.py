@@ -1,6 +1,8 @@
 """Config loading, validating, writing."""
 
-from pathlib import Path  # ruff: ignore[typing-only-standard-library-import] # Cannot be put in type checking block due to pydantic
+from pathlib import (
+    Path,  # ruff: ignore[typing-only-standard-library-import] # Cannot be put in type checking block due to pydantic
+)
 from typing import Self
 
 from pydantic import BaseModel, Field, model_validator
