@@ -16,17 +16,18 @@ Pages are rendered server side with Jinja templates, only the scripts are TypeSc
 
 ```bash
 bun install
-bun run codegen  # Dump the app's OpenAPI schema and generate frontend/generated/openapi.d.ts from it
+bun run codegen  # Dump the app's OpenAPI schema to frontend/openapi.json, generate frontend/generated/ from it
 bun run check    # tsc --noEmit, bun build strips types without checking them
 bun run build    # Bundle frontend/*.ts to src/my_cool_app/static/
 bun run all      # All three, in order
 ```
 
-Run `bun run all` after any api change, `frontend/generated/openapi.d.ts` is what makes a renamed endpoint or a
-changed response model a compile error instead of an `undefined` at runtime.
+Run `bun run all` after any api change, the typed client in `frontend/generated/` (@hey-api/openapi-ts, configured
+in openapi-ts.config.ts) is what makes a renamed endpoint or a changed response model a compile error instead of an
+`undefined` at runtime.
 
-Both generated files (`frontend/generated/openapi.d.ts` and the static bundle) are committed, since the package
-ships `src/my_cool_app/static/` and prod installs won't have bun. CI regenerates them and fails on a
+All generated files (`frontend/openapi.json`, `frontend/generated/` and the static bundle) are committed, since
+the package ships `src/my_cool_app/static/` and prod installs won't have bun. CI regenerates them and fails on a
 diff, so don't hand edit them.
 
 ## Testing
