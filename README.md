@@ -4,6 +4,8 @@
 [![CheckType](https://github.com/kism/fastapi-boilerplate/actions/workflows/check_types.yml/badge.svg)](https://github.com/kism/fastapi-boilerplate/actions/workflows/check_types.yml)
 [![Test](https://github.com/kism/fastapi-boilerplate/actions/workflows/test.yml/badge.svg)](https://github.com/kism/fastapi-boilerplate/actions/workflows/test.yml)
 
+See [README_dev.md](README_dev.md) for checking, testing and CI.
+
 ## Using this template
 
 Rename the app and repo references (replace `your_app` and `youruser/your-repo`):
@@ -22,15 +24,14 @@ rm -rf .venv *.egg-info && uv sync --all-extras
 
 Then delete this section.
 
-## Why this boilerplate?
+## This Boilerplate
 
 I have made a few simple web apps, this is what I use as a starting point for my future projects.
 
-App features:
+Features:
 
 - Config loads from a JSON file in the instance directory, defined and validated with pydantic
 - Logging setup with a TRACE level, optionally to a file
-- Version (including git branch/commit) rendered on the home page
 - Example api endpoint, with frontend javascript on the homepage that uses it
 - Tests with PyTest
 - No database
@@ -81,35 +82,6 @@ uv sync --no-dev
 ```
 
 Put it behind nginx/caddy for TLS and to serve as a reverse proxy.
-
-## Check/Test
-
-### Checking
-
-Run `ruff check` or get the vscode ruff extension, the rules are defined in pyproject.toml.
-
-### Type Checking
-
-Run `ty check`
-
-### Testing
-
-Run `pytest`, it will get its config from pyproject.toml
-
-`scripts/run-ci-local.sh` runs the lot: ty, ruff and pytest.
-
-### Test Coverage
-
-```bash
-scripts/run-coverage.sh
-python -m http.server -b 127.0.0.1 8000 -d htmlcov
-```
-
-### Workflows
-
-The '.github' folder has Check, Type Check and Test workflows.
-
-To get the workflow passing badges on your repo, have a look at <https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge>
 
 ## Config
 
