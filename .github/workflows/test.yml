@@ -10,6 +10,7 @@ on:
       - "**/README*"
       - ".github/workflows/check.yml"
       - ".github/workflows/check_types.yml"
+      - ".github/workflows/check_frontend.yml"
 
 jobs:
   test_boilerplate:

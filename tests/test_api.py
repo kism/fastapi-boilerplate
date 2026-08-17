@@ -40,3 +40,10 @@ def test_hello_backwards(client: TestClient) -> None:
     response = client.get("/hello_backwards/")
     assert response.status_code == HTTPStatus.OK
     assert response.json()["msg"] == "!dlroW ,olleH"  # cspell:disable-line
+
+
+def test_openapi_schema(client: TestClient) -> None:
+    """TEST: The OpenAPI schema is served, it's what frontend/openapi.d.ts is generated from."""
+    response = client.get("/openapi.json")
+    assert response.status_code == HTTPStatus.OK
+    assert response.json()["paths"].keys() >= {"/hello/", "/hello_backwards/"}

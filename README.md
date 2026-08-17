@@ -2,6 +2,7 @@
 
 [![Check](https://github.com/kism/fastapi-boilerplate/actions/workflows/check.yml/badge.svg)](https://github.com/kism/fastapi-boilerplate/actions/workflows/check.yml)
 [![CheckType](https://github.com/kism/fastapi-boilerplate/actions/workflows/check_types.yml/badge.svg)](https://github.com/kism/fastapi-boilerplate/actions/workflows/check_types.yml)
+[![CheckFrontend](https://github.com/kism/fastapi-boilerplate/actions/workflows/check_frontend.yml/badge.svg)](https://github.com/kism/fastapi-boilerplate/actions/workflows/check_frontend.yml)
 [![Test](https://github.com/kism/fastapi-boilerplate/actions/workflows/test.yml/badge.svg)](https://github.com/kism/fastapi-boilerplate/actions/workflows/test.yml)
 
 See [README_dev.md](README_dev.md) for checking, testing and CI.
@@ -19,7 +20,9 @@ git grep -lz -e my_cool_app -e my-cool-app -e kism/fastapi-boilerplate | \
   xargs -0 sed -i "s|my_cool_app|$NEW_MODULE|g; s|my-cool-app|$NEW_DIST|g; s|kism/fastapi-boilerplate|$NEW_REPO|g"
 git mv src/my_cool_app "src/$NEW_MODULE"
 git mv "src/$NEW_MODULE/static/my_cool_app.js" "src/$NEW_MODULE/static/$NEW_MODULE.js"
+git mv frontend/my_cool_app.ts "frontend/$NEW_MODULE.ts"
 rm -rf .venv *.egg-info && uv sync --all-extras
+bun install && bun run all
 ```
 
 Then delete this section.
@@ -32,7 +35,9 @@ Features:
 
 - Config loads from a JSON file in the instance directory, defined and validated with pydantic
 - Logging setup with a TRACE level, optionally to a file
-- Example api endpoint, with frontend javascript on the homepage that uses it
+- Example api endpoint, with frontend TypeScript on the homepage that uses it
+- Pages rendered server side with Jinja templates, no SPA framework
+- TypeScript client typed from the app's own OpenAPI schema, so api changes break the build not prod
 - Tests with PyTest
 - No database
 
@@ -41,7 +46,8 @@ Project features:
 - Four PyPi packages (and their dependencies) for prod
 - All project/tool configs in pyproject.toml
 - Virtual environment, dependencies and packaging managed by uv
-- Checked with ruff, type checked with ty
+- Frontend bundled with bun, no vite/webpack and no node
+- Checked with ruff, type checked with ty and tsc
 
 Comments marked with KISM-BOILERPLATE are placeholder code that you will remove/replace.
 
@@ -51,6 +57,9 @@ Have a look at <https://github.com/dbohdan/classless-css> too if you want a diff
 ## Prerequisites
 
 Install uv and uvx with the installer script <https://docs.astral.sh/uv/getting-started/installation/>
+
+Install bun with the installer script <https://bun.com/docs/installation>, it's only needed to change
+the frontend, the built javascript is committed.
 
 ## Run
 
