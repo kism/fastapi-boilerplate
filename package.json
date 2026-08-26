@@ -1,5 +1,6 @@
 {
   "name": "my-cool-app-frontend",
+  "packageManager": "bun@1.4.0",
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.99.0",
     "typescript": "^6.0.3"
