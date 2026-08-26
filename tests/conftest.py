@@ -5,7 +5,6 @@ Fixtures defined in a conftest.py can be used by any test in that package withou
 Tests should always use the tmp_path fixture as an instance_path so they don't pollute each other.
 """
 
-
 from typing import TYPE_CHECKING
 
 import pytest

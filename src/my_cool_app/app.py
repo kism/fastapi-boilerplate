@@ -33,7 +33,13 @@ def create_app(config: Config | None = None, instance_path: Path | None = None) 
 
     setup_logger(log_level=config.logging.level, log_path=config.logging.path)
 
-    app = FastAPI(title=PROGRAM_NAME, version=PROGRAM_NAME_WITH_FULL_VERSION)
+    app = FastAPI(
+        title=PROGRAM_NAME,
+        version=PROGRAM_NAME_WITH_FULL_VERSION,
+        # Operation ids are the route function names, FastAPI's default ids ('get_hello_hello__get') would generate
+        # equally ugly names in the typescript client.
+        generate_unique_id_function=lambda route: route.name,
+    )
     app.state.config = config
     app.state.instance_path = instance_path
     app.state.my_cool_object = MyCoolObject(config.app)

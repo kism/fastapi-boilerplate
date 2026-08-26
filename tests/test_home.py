@@ -19,6 +19,6 @@ def test_home(client: TestClient) -> None:
 
 
 def test_static_js_exists(client: TestClient) -> None:
-    """TEST: /static/my_cool_app.js loads."""
-    response = client.get("/static/my_cool_app.js")
+    """TEST: The home page's script bundle loads, one entrypoint per template lives in static/."""
+    response = client.get("/static/home.js")
     assert response.status_code == HTTPStatus.OK

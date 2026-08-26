@@ -18,3 +18,12 @@ updates:
       python:
         patterns:
           - "*"
+
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      frontend:
+        patterns:
+          - "*"

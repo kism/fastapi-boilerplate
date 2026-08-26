@@ -1,0 +1,15 @@
+{
+  "name": "my-cool-app-frontend",
+  "devDependencies": {
+    "@hey-api/openapi-ts": "^0.99.0",
+    "typescript": "^5"
+  },
+  "private": true,
+  "scripts": {
+    "codegen": "uv run my-cool-app --dump-openapi > frontend/openapi.json && openapi-ts",
+    "check": "tsc --noEmit",
+    "build": "bun build frontend/pages/*.ts --outdir src/my_cool_app/static/ --minify",
+    "all": "bun run codegen && bun run check && bun run build"
+  },
+  "type": "module"
+}

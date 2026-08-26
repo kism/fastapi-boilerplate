@@ -1,6 +1,7 @@
 """Test the cli entrypoint."""
 
 import argparse
+import json
 from typing import TYPE_CHECKING, Any
 
 import uvicorn
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
 
 def test_main(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """TEST: The entrypoint builds an app and hands it to uvicorn, without actually serving."""
-    mock_args = argparse.Namespace(host="127.0.0.1", port=5000, instance_path=tmp_path)
+    mock_args = argparse.Namespace(host="127.0.0.1", port=5000, instance_path=tmp_path, dump_openapi=False)
     monkeypatch.setattr(argparse.ArgumentParser, "parse_args", lambda self: mock_args)
 
     served: dict[str, Any] = {}
@@ -27,3 +28,14 @@ def test_main(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     assert isinstance(served["app"], FastAPI)
     assert served["port"] == 5000  # ruff: ignore[magic-value-comparison] # The port we passed in
     assert (tmp_path / "config.json").is_file()
+
+
+def test_main_dump_openapi(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
+    """TEST: --dump-openapi prints the schema to stdout and doesn't touch the instance directory."""
+    mock_args = argparse.Namespace(host="127.0.0.1", port=5000, instance_path=tmp_path, dump_openapi=True)
+    monkeypatch.setattr(argparse.ArgumentParser, "parse_args", lambda self: mock_args)
+
+    __main__.main()
+
+    assert json.loads(capsys.readouterr().out)["paths"].keys() >= {"/hello/", "/hello_backwards/"}
+    assert not (tmp_path / "config.json").exists()
