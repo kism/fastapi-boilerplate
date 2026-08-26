@@ -2,7 +2,7 @@
   "name": "my-cool-app-frontend",
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.99.0",
-    "typescript": "^7"
+    "typescript": "^5.9.3"
   },
   "private": true,
   "scripts": {
