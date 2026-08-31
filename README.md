@@ -23,6 +23,7 @@ git mv "src/$NEW_MODULE/static/my_cool_app.js" "src/$NEW_MODULE/static/$NEW_MODU
 git mv frontend/my_cool_app.ts "frontend/$NEW_MODULE.ts"
 rm -rf .venv *.egg-info && uv sync --all-extras
 bun install && bun run all
+rm -f .github/workflows/dependabot_automerge.yml
 ```
 
 Then delete this section.
