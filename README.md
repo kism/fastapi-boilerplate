@@ -24,6 +24,7 @@ git mv frontend/my_cool_app.ts "frontend/$NEW_MODULE.ts"
 rm -rf .venv *.egg-info && uv sync --all-extras
 bun install && bun run all
 rm -f .github/workflows/dependabot_automerge.yml
+rm -rf .git && git init -q && git add -A && git commit -qm "Initial commit"
 ```
 
 Then delete this section.
