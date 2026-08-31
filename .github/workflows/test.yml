@@ -10,27 +10,20 @@ on:
       - "**/README*"
       - ".github/workflows/check.yml"
       - ".github/workflows/check_types.yml"
-      - ".github/workflows/check_frontend.yml"
 
 jobs:
   test_boilerplate:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.14"] # Don't bother with beta versions, slow on github. https://github.com/actions/python-versions/releases
+        # Don't bother with beta versions, slow on github. https://github.com/actions/python-versions/releases
+        # Normally this has multiple versions but python 3.14 changed how type hints work. Future version will be added to the list.
+        python-version: ["3.14"]
     steps:
       - uses: actions/checkout@v7
 
       - name: Install uv
         uses: astral-sh/setup-uv@v10.0.1
-
-      - name: Setup bun
-        uses: oven-sh/setup-bun@v2
-
-      - name: Build frontend
-        run: |
-          bun install --frozen-lockfile
-          bun run build
 
       - name: Set up Python
         uses: actions/setup-python@v7
