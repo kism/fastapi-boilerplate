@@ -33,6 +33,14 @@ jobs:
       - name: Install the project
         run: uv sync --extra test
 
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install frontend dependencies, build frountend
+        run: |
+          bun install --frozen-lockfile
+          bun run codegen && bun run build
+
       - name: Test with pytest
         run: |
           .venv/bin/coverage run
