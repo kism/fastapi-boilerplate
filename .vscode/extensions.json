@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "esbenp.prettier-vscode",
     "samuelcolvin.jinjahtml",
     "ms-python.python",
     "charliermarsh.ruff",
