@@ -27,3 +27,7 @@ updates:
       frontend:
         patterns:
           - "*"
+    # ponytail: TS 7 breaks @hey-api/openapi-ts; drop this once it supports 7
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
