@@ -2,12 +2,13 @@
   "name": "my-cool-app-frontend",
   "packageManager": "bun@1.4.0",
   "devDependencies": {
+    "@biomejs/biome": "^2",
     "@hey-api/openapi-ts": "^0.99.0",
     "typescript": "^6"
   },
   "private": true,
   "scripts": {
-    "codegen": "uv run my-cool-app --dump-openapi > frontend/openapi.json && openapi-ts",
+    "codegen": "uv run my-cool-app --dump-openapi > frontend/openapi.json && openapi-ts && biome format frontend/openapi.json --write",
     "check": "tsc --noEmit",
     "build": "bun build frontend/pages/*.ts --outdir src/my_cool_app/static/ --minify",
     "all": "bun run codegen && bun run check && bun run build"

@@ -1,1 +1,58 @@
-{"openapi": "3.1.0", "info": {"title": "my-cool-app", "version": "my-cool-app v0.0.1"}, "paths": {"/hello/": {"get": {"tags": ["my_cool_object"], "summary": "Get Hello", "description": "Hello GET Method.", "operationId": "get_hello", "responses": {"200": {"description": "Successful Response", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MessageResponse"}}}}}}}, "/hello_backwards/": {"get": {"tags": ["my_cool_object"], "summary": "Get Hello Backwards", "description": "Hello backwards GET Method.", "operationId": "get_hello_backwards", "responses": {"200": {"description": "Successful Response", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MessageResponse"}}}}}}}, "/": {"get": {"summary": "Home", "description": "Render the home page.", "operationId": "home", "responses": {"200": {"description": "Successful Response", "content": {"text/html": {"schema": {"type": "string"}}}}}}}}, "components": {"schemas": {"MessageResponse": {"properties": {"msg": {"type": "string", "title": "Msg"}}, "type": "object", "required": ["msg"], "title": "MessageResponse", "description": "Response model, FastAPI turns this into the json response and the OpenAPI docs."}}}}
+{
+  "openapi": "3.1.0",
+  "info": { "title": "my-cool-app", "version": "my-cool-app v0.0.1" },
+  "paths": {
+    "/hello/": {
+      "get": {
+        "tags": ["my_cool_object"],
+        "summary": "Get Hello",
+        "description": "Hello GET Method.",
+        "operationId": "get_hello",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MessageResponse" } } }
+          }
+        }
+      }
+    },
+    "/hello_backwards/": {
+      "get": {
+        "tags": ["my_cool_object"],
+        "summary": "Get Hello Backwards",
+        "description": "Hello backwards GET Method.",
+        "operationId": "get_hello_backwards",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MessageResponse" } } }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Home",
+        "description": "Render the home page.",
+        "operationId": "home",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MessageResponse": {
+        "properties": { "msg": { "type": "string", "title": "Msg" } },
+        "type": "object",
+        "required": ["msg"],
+        "title": "MessageResponse",
+        "description": "Response model, FastAPI turns this into the json response and the OpenAPI docs."
+      }
+    }
+  }
+}
