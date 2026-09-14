@@ -12,6 +12,10 @@ on:
       - ".github/workflows/test.yml"
       - ".github/workflows/check_frontend.yml"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   ty:
     runs-on: ubuntu-latest
