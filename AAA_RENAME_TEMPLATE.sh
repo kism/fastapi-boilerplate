@@ -101,11 +101,11 @@ else
 fi
 
 # --- rebuild the frontend (openapi.json carries the dist name) -----
-if command -v bun >/dev/null && command -v uv >/dev/null; then
-	bun install
-	bun run all
+if command -v pnpm >/dev/null && command -v uv >/dev/null; then
+	pnpm install
+	pnpm run all
 else
-	echo "note: bun/uv not found - run 'bun install && bun run all' yourself" >&2
+	echo "note: pnpm/uv not found - run 'pnpm install && pnpm run all' yourself" >&2
 fi
 
 # --- fresh git history ------------------------------------------

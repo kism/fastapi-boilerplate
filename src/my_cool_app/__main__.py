@@ -20,7 +20,7 @@ def _get_args() -> argparse.Namespace:
     parser.add_argument(
         "--dump-openapi",
         action="store_true",
-        help="Print the OpenAPI schema to stdout and exit, for `bun run codegen`.",
+        help="Print the OpenAPI schema to stdout and exit, for `pnpm run codegen`.",
     )
     return parser.parse_args()
 

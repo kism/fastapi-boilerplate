@@ -37,13 +37,18 @@ jobs:
       - name: Install the project
         run: uv sync --group test
 
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up node
+        uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
 
       - name: Install frontend dependencies, build frountend
         run: |
-          bun install --frozen-lockfile
-          bun run codegen && bun run build
+          pnpm install --frozen-lockfile
+          pnpm run codegen && pnpm run build
 
       - name: Test with pytest
         run: |

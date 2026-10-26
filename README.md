@@ -40,7 +40,7 @@ Project features:
 - Four PyPi packages (and their dependencies) for prod
 - All project/tool configs in pyproject.toml
 - Virtual environment, dependencies and packaging managed by uv
-- Frontend bundled with bun, no vite/webpack and no node
+- Frontend bundled with esbuild via pnpm, no vite/webpack
 - Checked with ruff, type checked with ty and tsc
 
 Comments marked with KISM-BOILERPLATE are placeholder code that you will remove/replace.
@@ -52,7 +52,7 @@ Have a look at <https://github.com/dbohdan/classless-css> too if you want a diff
 
 Install uv and uvx with the installer script <https://docs.astral.sh/uv/getting-started/installation/>
 
-Install bun with the installer script <https://bun.com/docs/installation>, it's only needed to change
+Install node and pnpm <https://pnpm.io/installation>, it's only needed to change
 the frontend, the built javascript is committed.
 
 ## Run
